@@ -1,0 +1,422 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3AB89FDD1CC83AD400B0885A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB89FDC1CC83AD400B0885A /* AppDelegate.swift */; };
+		3AB89FDF1CC83AD400B0885A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB89FDE1CC83AD400B0885A /* ViewController.swift */; };
+		3AB89FE21CC83AD400B0885A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AB89FE01CC83AD400B0885A /* Main.storyboard */; };
+		3AB89FE51CC83AD400B0885A /* TurtleWeather.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3AB89FE31CC83AD400B0885A /* TurtleWeather.xcdatamodeld */; };
+		3AB89FE71CC83AD400B0885A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AB89FE61CC83AD400B0885A /* Assets.xcassets */; };
+		3AB89FEA1CC83AD400B0885A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AB89FE81CC83AD400B0885A /* LaunchScreen.storyboard */; };
+		3AB89FF51CC83AD400B0885A /* TurtleWeatherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB89FF41CC83AD400B0885A /* TurtleWeatherTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3AB89FF11CC83AD400B0885A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3AB89FD11CC83AD400B0885A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3AB89FD81CC83AD400B0885A;
+			remoteInfo = TurtleWeather;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		3AB89FD91CC83AD400B0885A /* TurtleWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TurtleWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3AB89FDC1CC83AD400B0885A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		3AB89FDE1CC83AD400B0885A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		3AB89FE11CC83AD400B0885A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3AB89FE41CC83AD400B0885A /* TurtleWeather.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TurtleWeather.xcdatamodel; sourceTree = "<group>"; };
+		3AB89FE61CC83AD400B0885A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3AB89FE91CC83AD400B0885A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		3AB89FEB1CC83AD400B0885A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3AB89FF01CC83AD400B0885A /* TurtleWeatherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TurtleWeatherTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3AB89FF41CC83AD400B0885A /* TurtleWeatherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurtleWeatherTests.swift; sourceTree = "<group>"; };
+		3AB89FF61CC83AD400B0885A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3AB89FD61CC83AD400B0885A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3AB89FED1CC83AD400B0885A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3AB89FD01CC83AD400B0885A = {
+			isa = PBXGroup;
+			children = (
+				3AB89FDB1CC83AD400B0885A /* TurtleWeather */,
+				3AB89FF31CC83AD400B0885A /* TurtleWeatherTests */,
+				3AB89FDA1CC83AD400B0885A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3AB89FDA1CC83AD400B0885A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3AB89FD91CC83AD400B0885A /* TurtleWeather.app */,
+				3AB89FF01CC83AD400B0885A /* TurtleWeatherTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3AB89FDB1CC83AD400B0885A /* TurtleWeather */ = {
+			isa = PBXGroup;
+			children = (
+				3AB89FDC1CC83AD400B0885A /* AppDelegate.swift */,
+				3AB89FDE1CC83AD400B0885A /* ViewController.swift */,
+				3AB89FE01CC83AD400B0885A /* Main.storyboard */,
+				3AB89FE61CC83AD400B0885A /* Assets.xcassets */,
+				3AB89FE81CC83AD400B0885A /* LaunchScreen.storyboard */,
+				3AB89FEB1CC83AD400B0885A /* Info.plist */,
+				3AB89FE31CC83AD400B0885A /* TurtleWeather.xcdatamodeld */,
+			);
+			path = TurtleWeather;
+			sourceTree = "<group>";
+		};
+		3AB89FF31CC83AD400B0885A /* TurtleWeatherTests */ = {
+			isa = PBXGroup;
+			children = (
+				3AB89FF41CC83AD400B0885A /* TurtleWeatherTests.swift */,
+				3AB89FF61CC83AD400B0885A /* Info.plist */,
+			);
+			path = TurtleWeatherTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3AB89FD81CC83AD400B0885A /* TurtleWeather */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3AB89FF91CC83AD400B0885A /* Build configuration list for PBXNativeTarget "TurtleWeather" */;
+			buildPhases = (
+				3AB89FD51CC83AD400B0885A /* Sources */,
+				3AB89FD61CC83AD400B0885A /* Frameworks */,
+				3AB89FD71CC83AD400B0885A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TurtleWeather;
+			productName = TurtleWeather;
+			productReference = 3AB89FD91CC83AD400B0885A /* TurtleWeather.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3AB89FEF1CC83AD400B0885A /* TurtleWeatherTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3AB89FFC1CC83AD400B0885A /* Build configuration list for PBXNativeTarget "TurtleWeatherTests" */;
+			buildPhases = (
+				3AB89FEC1CC83AD400B0885A /* Sources */,
+				3AB89FED1CC83AD400B0885A /* Frameworks */,
+				3AB89FEE1CC83AD400B0885A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3AB89FF21CC83AD400B0885A /* PBXTargetDependency */,
+			);
+			name = TurtleWeatherTests;
+			productName = TurtleWeatherTests;
+			productReference = 3AB89FF01CC83AD400B0885A /* TurtleWeatherTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3AB89FD11CC83AD400B0885A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "Skilpadde Labs";
+				TargetAttributes = {
+					3AB89FD81CC83AD400B0885A = {
+						CreatedOnToolsVersion = 7.3;
+					};
+					3AB89FEF1CC83AD400B0885A = {
+						CreatedOnToolsVersion = 7.3;
+						TestTargetID = 3AB89FD81CC83AD400B0885A;
+					};
+				};
+			};
+			buildConfigurationList = 3AB89FD41CC83AD400B0885A /* Build configuration list for PBXProject "TurtleWeather" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3AB89FD01CC83AD400B0885A;
+			productRefGroup = 3AB89FDA1CC83AD400B0885A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3AB89FD81CC83AD400B0885A /* TurtleWeather */,
+				3AB89FEF1CC83AD400B0885A /* TurtleWeatherTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3AB89FD71CC83AD400B0885A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3AB89FEA1CC83AD400B0885A /* LaunchScreen.storyboard in Resources */,
+				3AB89FE71CC83AD400B0885A /* Assets.xcassets in Resources */,
+				3AB89FE21CC83AD400B0885A /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3AB89FEE1CC83AD400B0885A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3AB89FD51CC83AD400B0885A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3AB89FDF1CC83AD400B0885A /* ViewController.swift in Sources */,
+				3AB89FDD1CC83AD400B0885A /* AppDelegate.swift in Sources */,
+				3AB89FE51CC83AD400B0885A /* TurtleWeather.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3AB89FEC1CC83AD400B0885A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3AB89FF51CC83AD400B0885A /* TurtleWeatherTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3AB89FF21CC83AD400B0885A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3AB89FD81CC83AD400B0885A /* TurtleWeather */;
+			targetProxy = 3AB89FF11CC83AD400B0885A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		3AB89FE01CC83AD400B0885A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3AB89FE11CC83AD400B0885A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		3AB89FE81CC83AD400B0885A /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3AB89FE91CC83AD400B0885A /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3AB89FF71CC83AD400B0885A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3AB89FF81CC83AD400B0885A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3AB89FFA1CC83AD400B0885A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = TurtleWeather/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.skilpaddelabs.TurtleWeather;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		3AB89FFB1CC83AD400B0885A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = TurtleWeather/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.skilpaddelabs.TurtleWeather;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		3AB89FFD1CC83AD400B0885A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = TurtleWeatherTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.skilpaddelabs.TurtleWeatherTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TurtleWeather.app/TurtleWeather";
+			};
+			name = Debug;
+		};
+		3AB89FFE1CC83AD400B0885A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = TurtleWeatherTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.skilpaddelabs.TurtleWeatherTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TurtleWeather.app/TurtleWeather";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3AB89FD41CC83AD400B0885A /* Build configuration list for PBXProject "TurtleWeather" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3AB89FF71CC83AD400B0885A /* Debug */,
+				3AB89FF81CC83AD400B0885A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3AB89FF91CC83AD400B0885A /* Build configuration list for PBXNativeTarget "TurtleWeather" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3AB89FFA1CC83AD400B0885A /* Debug */,
+				3AB89FFB1CC83AD400B0885A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		3AB89FFC1CC83AD400B0885A /* Build configuration list for PBXNativeTarget "TurtleWeatherTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3AB89FFD1CC83AD400B0885A /* Debug */,
+				3AB89FFE1CC83AD400B0885A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		3AB89FE31CC83AD400B0885A /* TurtleWeather.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				3AB89FE41CC83AD400B0885A /* TurtleWeather.xcdatamodel */,
+			);
+			currentVersion = 3AB89FE41CC83AD400B0885A /* TurtleWeather.xcdatamodel */;
+			path = TurtleWeather.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 3AB89FD11CC83AD400B0885A /* Project object */;
+}
