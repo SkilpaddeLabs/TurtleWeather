@@ -14,7 +14,7 @@ class NetworkManager {
     //var afManager:Alamofire.Manager
     
     // http://openweathermap.org
-    static let APIKEY =  "XXXXXXXXXXX"
+    static let APPID = "get your own id"
 
     init() {
 //        let config = NSURLSessionConfiguration.defaultSessionConfiguration()
@@ -23,22 +23,37 @@ class NetworkManager {
     
     func getLondonUS() {
         
+        // http://api.openweathermap.org/data/2.5/forecast?q=London,us&mode=json
         let urlString = "http://api.openweathermap.org/data/2.5/forecast"
-        let parameters = ["q":"London", "APPID":NetworkManager.APIKEY]
+        let parameters = ["q":"London", "APPID":NetworkManager.APPID]
         let headers = ["Accept":"application/json"]
         Alamofire.request( .GET, urlString, parameters: parameters, headers: headers)
                  .validate()
-                 .responseJSON { response in
+                 .response{ (request, response, data, error) in
             
-                    guard response.result.isSuccess else {
-                        print(response.result.error)
-                        return
+                    //response.result.value
+                    if data != nil {
+                        self.printLondon(data!)
                     }
-                    
-                    print(response.result.value)
         }
-        
-        
-        //http://api.openweathermap.org/data/2.5/forecast?q=London,us&mode=json
+    }
+    
+    func printLondon(data:NSData) {
+        do {
+            if let json = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+                as? [String:AnyObject] {
+                //print(json["city"])
+//                print(json["city"])
+//                print(json["cod"])
+                if let aList = json["list"] as? [[String:AnyObject]] {
+                //aWeather = aList{
+                    for thing in aList {
+                        print(thing["wind"])
+                    }
+                }
+            }
+        } catch {
+            print("Error Printing London")
+        }
     }
 }
