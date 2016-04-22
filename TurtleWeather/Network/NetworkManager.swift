@@ -11,49 +11,30 @@ import Alamofire
 
 class NetworkManager {
 
-    //var afManager:Alamofire.Manager
-    
-    // http://openweathermap.org
-    static let APPID = "get your own id"
-
     init() {
 //        let config = NSURLSessionConfiguration.defaultSessionConfiguration()
 //        afManager = Alamofire.Manager(configuration: config)
     }
     
-    func getLondonUS() {
+    typealias londonCompletion = (NSData?)->(Void)
+    class func getLondon(completion:londonCompletion) {
         
-        // http://api.openweathermap.org/data/2.5/forecast?q=London,us&mode=json
-        let urlString = "http://api.openweathermap.org/data/2.5/forecast"
-        let parameters = ["q":"London", "APPID":NetworkManager.APPID]
-        let headers = ["Accept":"application/json"]
-        Alamofire.request( .GET, urlString, parameters: parameters, headers: headers)
+        
+        Alamofire.request(OWM_APIRouter.City("London"))
                  .validate()
-                 .response{ (request, response, data, error) in
-            
-                    //response.result.value
-                    if data != nil {
-                        self.printLondon(data!)
-                    }
-        }
-    }
-    
-    func printLondon(data:NSData) {
-        do {
-            if let json = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
-                as? [String:AnyObject] {
-                //print(json["city"])
-//                print(json["city"])
-//                print(json["cod"])
-                if let aList = json["list"] as? [[String:AnyObject]] {
-                //aWeather = aList{
-                    for thing in aList {
-                        print(thing["wind"])
-                    }
-                }
+                 .response { (request, response, data, error) in
+        
+            // TODO: Check response for error
+            if let urlResponse = response {
+                print(urlResponse)
+                //return
             }
-        } catch {
-            print("Error Printing London")
+            // TODO: Do something with errors
+            if let anError = error {
+                print(anError)
+                return
+            }
+            completion(data)
         }
     }
 }

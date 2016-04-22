@@ -13,8 +13,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        let network = NetworkManager()
-        network.getLondonUS()
+        let dataCache = WeatherDataCache()
+        dataCache.getLondon()
+        
     }
 
     override func didReceiveMemoryWarning() {
