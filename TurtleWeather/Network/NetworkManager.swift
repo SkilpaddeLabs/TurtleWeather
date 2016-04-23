@@ -26,7 +26,7 @@ class NetworkManager {
         
             // TODO: Check response for error
             if let urlResponse = response {
-                print(urlResponse)
+                //print(urlResponse)
                 //return
             }
             // TODO: Do something with errors

@@ -34,10 +34,19 @@ class WeatherDataCache {
             if let json = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
                             as? [String:AnyObject] {
                 
+                
+                let dateFormatter = WeatherData.standardFormat()
+                var dates = [WeatherData]()
+                
                 if let aList = json["list"] as? [[String:AnyObject]] {
-                    //aWeather = aList{
+                    
                     for thing in aList {
-                        print(thing["wind"])
+                        let dataPoint = WeatherData(jsonDict:thing,
+                                               dateFormatter:dateFormatter)
+                        dates.append(dataPoint)
+                        
+                        print("Date: \(dataPoint.date)")
+                        print("Temp: \(dataPoint.tempKelvin)")
                     }
                 }
             }

@@ -9,6 +9,12 @@
 import Foundation
 import Alamofire
 
+struct OWMKey {
+    static let Date = "dt_txt"
+    static let Main = "main"
+    static let MainTemp = "temp"
+}
+
 // Organizes API calls for Open Weather Map
 enum OWM_APIRouter:URLRequestConvertible {
     
