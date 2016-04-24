@@ -30,28 +30,10 @@ class WeatherDataCache {
     }
     
     func printLondon(data:NSData) {
-        do {
-            if let json = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
-                            as? [String:AnyObject] {
-                
-                
-                let dateFormatter = WeatherData.standardFormat()
-                var dates = [WeatherData]()
-                
-                if let aList = json["list"] as? [[String:AnyObject]] {
-                    
-                    for thing in aList {
-                        let dataPoint = WeatherData(jsonDict:thing,
-                                               dateFormatter:dateFormatter)
-                        dates.append(dataPoint)
-                        
-                        print("Date: \(dataPoint.date)")
-                        print("Temp: \(dataPoint.tempKelvin)")
-                    }
-                }
-            }
-        } catch {
-            print("Error Printing London")
+        
+        let weatherData = WeatherData.dataFromJSON(data)
+        for data in weatherData {
+            print(data.shortDesc)
         }
     }
 }

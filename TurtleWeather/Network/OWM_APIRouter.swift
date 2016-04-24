@@ -9,10 +9,28 @@
 import Foundation
 import Alamofire
 
+// JSON data structure keys.
 struct OWMKey {
+    
+    static let List = "list"
+    
+    static let Rain = "rain"
+    static let RainKey = "3h"
     static let Date = "dt_txt"
+    static let DateFormat = "yyyy-mm-dd' 'HH:mm:ss"
+    
+    static let Weather = "weather"
+    static let WeatherDescription = "description"
+    static let WeatherMain = "main"
+    
+    static let Wind = "wind"
+    static let WindDirection = "deg"
+    static let WindSpeed = "speed"
+    
     static let Main = "main"
     static let MainTemp = "temp"
+    static let MainHumidity = "humidity"
+    static let MainPressure = "pressure"
 }
 
 // Organizes API calls for Open Weather Map
