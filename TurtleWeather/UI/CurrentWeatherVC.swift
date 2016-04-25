@@ -15,27 +15,60 @@ class CurrentWeatherVC: UIViewController {
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var weatherLabel: UILabel!
     
+    @IBOutlet weak var tomorrowLabel: UILabel!
+    @IBOutlet weak var dayAfterTomorrowLabel: UILabel!
+    
     weak var dataCache:WeatherDataCache?
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
-        let dateFormatter = CurrentWeatherVC.dateFormatter()
+        
         
         let dataCache = WeatherDataCache()
         dataCache.getWeather("London") { (data, error) in
             
-            if let lastData = data?.first?.first {
-                self.nameLabel.text = "\(lastData.name)"
-                self.dateLabel.text = dateFormatter.stringFromDate(lastData.date)
-                self.temperatureLabel.text = Temperature.Fahrenheit.convertKelvin(lastData.tempKelvin)
-                self.weatherLabel.text = "\(lastData.weather)"
+            if let todayData = data?.first {
+                self.updateTodayUI(todayData)
+            }
+            if let tomorrowData = data?[1] {
+                self.tomorrowLabel.text = self.weatherString("Tomorrow", weatherData:tomorrowData)
+            }
+            if let nextDayData = data?[2] {
+                self.dayAfterTomorrowLabel.text = self.weatherString("Next", weatherData:nextDayData)
             }
         }
     }
     
-    class func dateFormatter() ->NSDateFormatter {
+    func updateTodayUI(data:[WeatherData]) {
+        
+        guard let currentData = data.first else {
+            return
+        }
+        
+        let dateFormatter = self.dateFormatter()
+        self.nameLabel.text = "\(currentData.name)"
+        self.dateLabel.text = dateFormatter.stringFromDate(currentData.date)
+        self.temperatureLabel.text = Temperature.Fahrenheit.convertKelvin(currentData.tempKelvin)
+        self.weatherLabel.text = "\(currentData.weather)"
+    }
+    
+    func weatherString(day:String, weatherData:[WeatherData]) ->String {
+        
+        let weatherString = weatherData.first?.weather ?? ""
+        
+        let temps = weatherData.map{ $0.tempKelvin }
+        let highTemp = temps.maxElement() ?? 0.0
+        let lowTemp = temps.minElement()  ?? 0.0
+        
+        let formatHigh = Temperature.Fahrenheit.convertKelvin(highTemp)
+        let formatLow = Temperature.Fahrenheit.convertKelvin(lowTemp)
+        
+        return "\(day) - \(weatherString) Hi: \(formatHigh) Lo: \(formatLow)"
+    }
+    
+    func dateFormatter() ->NSDateFormatter {
         
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = .MediumStyle

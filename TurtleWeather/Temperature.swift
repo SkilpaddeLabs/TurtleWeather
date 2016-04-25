@@ -21,12 +21,12 @@ enum Temperature {
             let cTemp = kTemp+237.15
             formatter.minimumFractionDigits = 1
             formatter.maximumFractionDigits = 1
-            return "\(formatter.stringFromNumber(cTemp) ?? "_") C"
+            return "\(formatter.stringFromNumber(cTemp) ?? "_")° C"
         case .Fahrenheit:
             let fTemp = (kTemp * 9.0 / 5.0) - 459.67
             formatter.minimumFractionDigits = 0
             formatter.maximumFractionDigits = 0
-            return "\(formatter.stringFromNumber(fTemp) ?? "_") F"
+            return "\(formatter.stringFromNumber(fTemp) ?? "_")° F"
         }
     }
 }
