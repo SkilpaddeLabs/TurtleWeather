@@ -21,6 +21,7 @@ class CurrentWeatherVC: UIViewController {
     weak var dataCache:WeatherDataCache?
     
     
+    // MARK: - Segues
     @IBAction func showDetail(sender: UIButton) {
         
         let buttonNumber = NSNumber(int:Int32(sender.tag))
@@ -31,17 +32,20 @@ class CurrentWeatherVC: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "ShowDetailSegue" {
+            
             if let buttonNumber = sender?.intValue {
                 print("Butt: \(buttonNumber)")
             }
+            // Inject dataCache dependancy.
+            if let destination = segue.destinationViewController as? WeatherDetailVC {
+                destination.dataCache = self.dataCache
+            }
         }
     }
-    
+    // MARK: - viewDidLoad
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-        
         
         let dataCache = WeatherDataCache()
         dataCache.getWeather("London") { (data, error) in
