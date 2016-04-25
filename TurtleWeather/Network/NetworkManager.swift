@@ -16,16 +16,18 @@ class NetworkManager {
 //        afManager = Alamofire.Manager(configuration: config)
     }
     
-    typealias londonCompletion = (NSData?)->(Void)
-    class func getLondon(completion:londonCompletion) {
+    
+    
+    class func getWeather(city:String, completion:WeatherCompletion) {
         
         
-        Alamofire.request(OWM_APIRouter.City("London"))
+        Alamofire.request(OWM_APIRouter.City(city))
                  .validate()
                  .response { (request, response, data, error) in
         
             // TODO: Check response for error
             if let urlResponse = response {
+                
                 //print(urlResponse)
                 //return
             }
@@ -34,7 +36,7 @@ class NetworkManager {
                 print(anError)
                 return
             }
-            completion(data)
+            completion(data, error)
         }
     }
 }

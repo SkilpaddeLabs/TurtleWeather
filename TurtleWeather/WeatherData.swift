@@ -19,6 +19,7 @@ class WeatherData:CustomStringConvertible {
     let windSpeed:Float
     let weather:String
     let weatherDescription:String
+    let name:String
 
     class func standardFormat() ->NSDateFormatter {
         
@@ -29,7 +30,7 @@ class WeatherData:CustomStringConvertible {
         return dateFormatter
     }
     
-    class func dataFromJSON(jsonData:NSData) ->[WeatherData] {
+    class func dataFromJSON(cityName:String, jsonData:NSData) ->[WeatherData]? {
         
         do {
             if let json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: .AllowFragments)
@@ -40,7 +41,9 @@ class WeatherData:CustomStringConvertible {
                 // Turn JSON dictionary into an array of WeatherData objects
                 if let aList = json[OWMKey.List] as? [[String:AnyObject]] {
                     
-                    return aList.map{ WeatherData(jsonDict: $0, dateFormatter: dateFormatter) }
+                    return aList.map{ WeatherData(cityName: cityName,
+                                                  jsonDict: $0,
+                                             dateFormatter: dateFormatter) }
                 }
             }
         } catch {
@@ -49,8 +52,10 @@ class WeatherData:CustomStringConvertible {
         return [WeatherData]()
     }
     
-    required init(jsonDict: [String:AnyObject], dateFormatter:NSDateFormatter) {
+    required init(cityName:String, jsonDict: [String:AnyObject], dateFormatter:NSDateFormatter) {
         
+        // City Name
+        self.name = cityName
         // Rain
         if let rainDict = jsonDict[OWMKey.Rain] as? [String:AnyObject],
            let rainVal = rainDict[OWMKey.RainKey] as? Float {

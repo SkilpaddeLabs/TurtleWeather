@@ -13,10 +13,16 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    let dataCache:WeatherDataCache = WeatherDataCache()
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        if let rootVC = self.window!.rootViewController as? CurrentWeatherVC {
+            rootVC.dataCache = self.dataCache
+        }
+        // TODO: Start fetching new data?
+        
         return true
     }
 

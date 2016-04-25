@@ -9,6 +9,8 @@
 import Foundation
 import Alamofire
 
+typealias WeatherCompletion = (NSData?, NSError?)->(Void)
+typealias CityWeatherCompletion = ([WeatherData]?, NSError?)->(Void)
 
 // Makes network requests and stores data.
 //  Notifies UI that data has been updated.
@@ -16,22 +18,42 @@ import Alamofire
 //  make network requests themselves.
 class WeatherDataCache {
     
+    var weatherData:[WeatherData]?
+    // TODO: Serial/Concurrent ???
+    let networkQueue = dispatch_queue_create("com.turtlewather.network", DISPATCH_QUEUE_SERIAL)
+
     init() {
         
     }
     
-    func getLondon() {
+    //func getCurrentWeather(completion:WeatherCompletion)
+    
+    func getWeather(cityName:String, completion:CityWeatherCompletion) {
         
-        NetworkManager.getLondon { data in
-            if let londonData = data {
-                self.printLondon(londonData)
+        dispatch_async(networkQueue) {
+            
+            NetworkManager.getWeather(cityName) { (data, error) in
+                
+                guard let cityData = data else {
+                    print("Error getting data from network")
+                    return
+                }
+                guard let decodedData = WeatherData.dataFromJSON(cityName, jsonData: cityData) else {
+                    print("Error decoding json data")
+                    return
+                }
+                self.weatherData = decodedData
+                self.printWeatherData(decodedData)
+                // Update caller
+                dispatch_async(dispatch_get_main_queue()) {
+                    completion(self.weatherData, error)
+                }
             }
         }
     }
     
-    func printLondon(data:NSData) {
+    func printWeatherData(weatherData:[WeatherData]) {
         
-        let weatherData = WeatherData.dataFromJSON(data)
         for data in weatherData {
             print(data.shortDesc)
         }
