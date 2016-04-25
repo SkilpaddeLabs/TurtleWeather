@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		143CACAE1CCE82E7005EF688 /* Temperature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143CACAD1CCE82E7005EF688 /* Temperature.swift */; };
 		3A1D4A3D1CC91D6C00CCAF14 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1D4A3C1CC91D6C00CCAF14 /* NetworkManager.swift */; };
 		3A1D4A3F1CCA5DF900CCAF14 /* OWM_APIRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1D4A3E1CCA5DF900CCAF14 /* OWM_APIRouter.swift */; };
 		3A1D4A411CCBB38F00CCAF14 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1D4A401CCBB38F00CCAF14 /* WeatherData.swift */; };
@@ -33,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		143CACAD1CCE82E7005EF688 /* Temperature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Temperature.swift; sourceTree = "<group>"; };
 		3543A6B0F04F31D505263DCC /* Pods-TurtleWeatherTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TurtleWeatherTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TurtleWeatherTests/Pods-TurtleWeatherTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3A1D4A3C1CC91D6C00CCAF14 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkManager.swift; path = Network/NetworkManager.swift; sourceTree = "<group>"; };
 		3A1D4A3E1CCA5DF900CCAF14 /* OWM_APIRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OWM_APIRouter.swift; path = Network/OWM_APIRouter.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				3A1D4A3B1CC91CD900CCAF14 /* Network */,
 				3AB671F61CCD155E00FB4F12 /* UI */,
 				3AB89FDC1CC83AD400B0885A /* AppDelegate.swift */,
+				143CACAD1CCE82E7005EF688 /* Temperature.swift */,
 				3AB89FE01CC83AD400B0885A /* Main.storyboard */,
 				3AB89FE61CC83AD400B0885A /* Assets.xcassets */,
 				3AB89FE81CC83AD400B0885A /* LaunchScreen.storyboard */,
@@ -361,6 +364,7 @@
 			files = (
 				3A7AF1AB1CC91C770089BBBD /* WeatherDataCache.swift in Sources */,
 				3A1D4A411CCBB38F00CCAF14 /* WeatherData.swift in Sources */,
+				143CACAE1CCE82E7005EF688 /* Temperature.swift in Sources */,
 				3AB671F51CCD155700FB4F12 /* CurrentWeatherVC.swift in Sources */,
 				3A1D4A3D1CC91D6C00CCAF14 /* NetworkManager.swift in Sources */,
 				3AB89FDD1CC83AD400B0885A /* AppDelegate.swift in Sources */,

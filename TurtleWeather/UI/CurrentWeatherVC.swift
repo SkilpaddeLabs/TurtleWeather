@@ -18,18 +18,29 @@ class CurrentWeatherVC: UIViewController {
     weak var dataCache:WeatherDataCache?
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        let dateFormatter = CurrentWeatherVC.dateFormatter()
+        
         let dataCache = WeatherDataCache()
         dataCache.getWeather("London") { (data, error) in
             
             if let lastData = data?.first?.first {
                 self.nameLabel.text = "\(lastData.name)"
-                self.dateLabel.text = "\(lastData.date)"
-                self.temperatureLabel.text = "\(lastData.tempKelvin)"
+                self.dateLabel.text = dateFormatter.stringFromDate(lastData.date)
+                self.temperatureLabel.text = Temperature.Fahrenheit.convertKelvin(lastData.tempKelvin)
                 self.weatherLabel.text = "\(lastData.weather)"
             }
         }
+    }
+    
+    class func dateFormatter() ->NSDateFormatter {
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = .MediumStyle
+        dateFormatter.locale = NSLocale(localeIdentifier: "en_US")
+        return dateFormatter
     }
     
     override func didReceiveMemoryWarning() {
