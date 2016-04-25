@@ -20,6 +20,23 @@ class CurrentWeatherVC: UIViewController {
     
     weak var dataCache:WeatherDataCache?
     
+    
+    @IBAction func showDetail(sender: UIButton) {
+        
+        let buttonNumber = NSNumber(int:Int32(sender.tag))
+        
+        self.performSegueWithIdentifier("ShowDetailSegue", sender: buttonNumber)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == "ShowDetailSegue" {
+            if let buttonNumber = sender?.intValue {
+                print("Butt: \(buttonNumber)")
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
