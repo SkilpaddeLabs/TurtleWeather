@@ -23,7 +23,7 @@ class CurrentWeatherVC: UIViewController {
         let dataCache = WeatherDataCache()
         dataCache.getWeather("London") { (data, error) in
             
-            if let lastData = data?.first {
+            if let lastData = data?.first?.first {
                 self.nameLabel.text = "\(lastData.name)"
                 self.dateLabel.text = "\(lastData.date)"
                 self.temperatureLabel.text = "\(lastData.tempKelvin)"

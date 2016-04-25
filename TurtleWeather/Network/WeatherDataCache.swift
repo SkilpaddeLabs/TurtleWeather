@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 
 typealias WeatherCompletion = (NSData?, NSError?)->(Void)
-typealias CityWeatherCompletion = ([WeatherData]?, NSError?)->(Void)
+typealias CityWeatherCompletion = (Array<[WeatherData]>?, NSError?)->(Void)
 
 // Makes network requests and stores data.
 //  Notifies UI that data has been updated.
@@ -25,8 +25,6 @@ class WeatherDataCache {
     init() {
         
     }
-    
-    //func getCurrentWeather(completion:WeatherCompletion)
     
     func getWeather(cityName:String, completion:CityWeatherCompletion) {
         
@@ -43,13 +41,43 @@ class WeatherDataCache {
                     return
                 }
                 self.weatherData = decodedData
-                self.printWeatherData(decodedData)
+                //self.printWeatherData(decodedData)
+                let splitData = self.splitDataByDays(decodedData)
+                
                 // Update caller
                 dispatch_async(dispatch_get_main_queue()) {
-                    completion(self.weatherData, error)
+                    completion(splitData, error)
                 }
             }
         }
+    }
+    
+    func splitDataByDays(weatherData:[WeatherData]) ->Array<[WeatherData]>{
+        
+        // Create calendar object with correct time zone.
+        var activeDate = weatherData.first!.date
+        let gmt = NSTimeZone(forSecondsFromGMT: 0)
+        let dataTimeZoneOffset = gmt.secondsFromGMTForDate(activeDate)
+        let calendar = NSCalendar.currentCalendar()
+        calendar.timeZone = NSTimeZone(forSecondsFromGMT: dataTimeZoneOffset)
+        
+        // Split data into arrays based on date.
+        var days = Array<[WeatherData]>()
+        var currentDay = [WeatherData]()
+        
+        for data in weatherData {
+            
+            let sameDate = calendar.isDate(data.date, inSameDayAsDate: activeDate)
+    
+            if !sameDate {
+                days.append(currentDay)
+                currentDay = [WeatherData]()
+                activeDate = calendar.startOfDayForDate(data.date)
+            }
+            currentDay.append(data)
+        }
+        days.append(currentDay)
+        return days
     }
     
     func printWeatherData(weatherData:[WeatherData]) {
