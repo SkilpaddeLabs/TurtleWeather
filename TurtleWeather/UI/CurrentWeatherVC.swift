@@ -47,7 +47,7 @@ class CurrentWeatherVC: UIViewController {
             }
         }
     }
-    // MARK: - viewDidLoad
+    // MARK: - View Loading
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -65,6 +65,9 @@ class CurrentWeatherVC: UIViewController {
                 self.dayAfterTomorrowLabel.text = self.weatherString("Next Day", weatherData:nextDayData)
             }
         }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
         roundCorners()
     }
     

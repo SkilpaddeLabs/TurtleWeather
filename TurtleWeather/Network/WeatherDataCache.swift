@@ -18,6 +18,7 @@ typealias CityWeatherCompletion = (Array<[WeatherData]>?, NSError?)->(Void)
 //  make network requests themselves.
 class WeatherDataCache {
     
+    var lastUpdate:NSDate?
     var weatherData:[WeatherData]?
     // TODO: Serial/Concurrent ???
     let networkQueue = dispatch_queue_create("com.turtlewather.network", DISPATCH_QUEUE_SERIAL)
@@ -27,6 +28,19 @@ class WeatherDataCache {
     }
     
     func getWeather(cityName:String, completion:CityWeatherCompletion) {
+        
+        let timoutInterval = 15.0 * 60.0
+        
+        if let data = weatherData,
+           lastDate = lastUpdate
+           where lastDate.timeIntervalSinceNow < timoutInterval {
+           
+            let splitData = self.splitDataByDays(data)
+            // Update caller
+            dispatch_async(dispatch_get_main_queue()) {
+                completion(splitData, nil)
+            }
+        }
         
         dispatch_async(networkQueue) {
             
@@ -40,10 +54,11 @@ class WeatherDataCache {
                     print("Error decoding json data")
                     return
                 }
+                self.lastUpdate = NSDate()
+                print(self.lastUpdate)
                 self.weatherData = decodedData
                 //self.printWeatherData(decodedData)
                 let splitData = self.splitDataByDays(decodedData)
-                
                 // Update caller
                 dispatch_async(dispatch_get_main_queue()) {
                     completion(splitData, error)
