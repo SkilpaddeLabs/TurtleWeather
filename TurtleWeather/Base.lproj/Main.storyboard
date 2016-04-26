@@ -19,7 +19,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ioT-nM-mRd">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ioT-nM-mRd">
                                 <rect key="frame" x="20" y="72" width="560" height="520"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f5e-o0-9ei">
@@ -103,15 +103,15 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PEL-c7-so6">
-                                        <rect key="frame" x="0.0" y="364" width="560" height="78"/>
+                                        <rect key="frame" x="0.0" y="372" width="560" height="70"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tomorrow" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kud-LD-4ya">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Tomorrow" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="kud-LD-4ya">
                                                 <rect key="frame" x="20" y="29" width="468" height="21"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qrp-qc-GDX">
+                                            <button opaque="NO" tag="1" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qrp-qc-GDX">
                                                 <rect key="frame" x="496" y="28" width="44" height="22"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="44" id="TV2-dQ-uJi"/>
@@ -133,9 +133,9 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p81-fq-wWc">
-                                        <rect key="frame" x="0.0" y="442" width="560" height="78"/>
+                                        <rect key="frame" x="0.0" y="450" width="560" height="70"/>
                                         <subviews>
-                                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5nx-4L-ZA9">
+                                            <button opaque="NO" tag="2" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5nx-4L-ZA9">
                                                 <rect key="frame" x="496" y="28" width="44" height="22"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="44" id="i4G-hJ-pKp"/>
@@ -144,9 +144,9 @@
                                                     <action selector="showDetail:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NLH-68-llz"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Day After Tomorrow" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BHH-i2-qzO">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Day After Tomorrow" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="BHH-i2-qzO">
                                                 <rect key="frame" x="20" y="29" width="468" height="21"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -181,9 +181,12 @@
                     <connections>
                         <outlet property="dateLabel" destination="Iuq-a9-eHy" id="M7K-Vf-yax"/>
                         <outlet property="dayAfterTomorrowLabel" destination="BHH-i2-qzO" id="VWs-L3-H36"/>
+                        <outlet property="dayAfterTomorrowView" destination="p81-fq-wWc" id="d7m-fJ-bPl"/>
                         <outlet property="nameLabel" destination="HZv-pV-ctv" id="beb-KW-6OS"/>
                         <outlet property="temperatureLabel" destination="Z2Z-Y8-y1M" id="64X-cx-Lpt"/>
+                        <outlet property="todayView" destination="f5e-o0-9ei" id="Ias-g0-INj"/>
                         <outlet property="tomorrowLabel" destination="kud-LD-4ya" id="WZd-QX-gzt"/>
+                        <outlet property="tomorrowView" destination="PEL-c7-so6" id="UQ7-CV-u2G"/>
                         <outlet property="weatherLabel" destination="dJD-IM-r5T" id="oAC-dm-Ivp"/>
                         <segue destination="sNA-wV-gb3" kind="show" identifier="ShowDetailSegue" id="cxg-Mn-83g"/>
                     </connections>

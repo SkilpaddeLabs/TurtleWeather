@@ -10,6 +10,11 @@ import UIKit
 
 class CurrentWeatherVC: UIViewController {
 
+    
+    @IBOutlet weak var todayView: UIView!
+    @IBOutlet weak var tomorrowView: UIView!
+    @IBOutlet weak var dayAfterTomorrowView: UIView!
+    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -57,9 +62,17 @@ class CurrentWeatherVC: UIViewController {
                 self.tomorrowLabel.text = self.weatherString("Tomorrow", weatherData:tomorrowData)
             }
             if let nextDayData = data?[2] {
-                self.dayAfterTomorrowLabel.text = self.weatherString("Next", weatherData:nextDayData)
+                self.dayAfterTomorrowLabel.text = self.weatherString("Next Day", weatherData:nextDayData)
             }
         }
+        roundCorners()
+    }
+    
+    func roundCorners() {
+        
+        todayView.layer.cornerRadius = 10.0
+        tomorrowView.layer.cornerRadius = 10.0
+        dayAfterTomorrowView.layer.cornerRadius = 10.0
     }
     
     func updateTodayUI(data:[WeatherData]) {
