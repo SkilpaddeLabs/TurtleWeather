@@ -38,7 +38,7 @@ class WeatherDataCache {
             
             let calendar = calendarForWeatherDate(data.first!.date)
             let dayData = self.weatherData?.filter {
-                calendar.isDate( $0.date, inSameDayAsDate: searchDate)
+                calendar.isDate($0.date, inSameDayAsDate: searchDate)
             }
             
             // Update caller
@@ -104,7 +104,8 @@ class WeatherDataCache {
         
         // Create calendar object with correct time zone.
         var activeDate = weatherData.first!.date
-        let calendar = calendarForWeatherDate(activeDate)
+        //let calendar = calendarForWeatherDate(activeDate)
+        let calendar = NSCalendar.currentCalendar()
         
         // Split data into arrays based on date.
         var days = Array<[WeatherData]>()

@@ -13,6 +13,7 @@ class WeatherDetailVC: UITableViewController {
     weak var dataCache:WeatherDataCache?
     var todayDate:NSDate?
     var todayData:[WeatherData]?
+    var todayCity:String?
     
     // MARK: - View Loading
     override func viewDidLoad() {
@@ -24,18 +25,24 @@ class WeatherDetailVC: UITableViewController {
     // MARK: - Get data.
     func loadData() {
         
-        // TODO !
-        let tomorrow = todayDate!.dateByAddingTimeInterval(24*60*60)
-        dataCache?.getWeather( "London", forDate:tomorrow) { (data, error) in
+        if let aDay = todayDate,
+              aCity = todayCity {
             
-            self.todayData = data
-            self.tableView.reloadData()
+            dataCache?.getWeather( aCity, forDate:aDay) { (data, error) in
+                
+                self.todayData = data
+                self.tableView.reloadData()
+            }
         }
     }
     
     // MARK: - UITableView
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
+    }
+    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return String(todayData?.first?.date ?? "")
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

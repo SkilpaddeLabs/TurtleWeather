@@ -23,7 +23,8 @@ class CurrentWeatherVC: UIViewController {
     @IBOutlet weak var dayAfterTomorrowLabel: UILabel!
     
     var dataCache:WeatherDataCache?
-    var todaysDate:NSDate?
+    var todayDate:NSDate?
+    var todayCity:String = "London"
     
     // MARK: - Segues
     @IBAction func showDetail(sender: UIButton) {
@@ -38,25 +39,34 @@ class CurrentWeatherVC: UIViewController {
         if segue.identifier == "ShowDetailSegue" {
             
             if let buttonNumber = sender?.intValue {
-                print("Butt: \(buttonNumber)")
-            }
-            // Inject dataCache dependancy.
-            if let destination = segue.destinationViewController as? WeatherDetailVC {
-                destination.todayDate = self.todaysDate
-                destination.dataCache = self.dataCache
+                
+                // Pass date depending on which button was pushed.
+                let interval = Double(buttonNumber*24*60*60)
+                
+                let destinationDate = todayDate?.dateByAddingTimeInterval(interval)
+                print("\(interval) \(destinationDate)")
+                // Inject dataCache dependancy.
+                if let destination = segue.destinationViewController as? WeatherDetailVC {
+                    
+                    destination.dataCache = self.dataCache
+                    destination.todayDate = destinationDate
+                    destination.todayCity = self.todayCity
+                }
             }
         }
     }
+    
     // MARK: - View Loading
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        self.todayCity = "London"
         
         self.dataCache = WeatherDataCache()
-        self.dataCache?.getWeather("London") { (data, error) in
+        self.dataCache?.getWeather(todayCity) { (data, error) in
             
             if let todayData = data?.first {
-                self.todaysDate = todayData.first?.date
+                self.todayDate = todayData.first?.date
                 self.updateTodayUI(todayData)
             }
             if let tomorrowData = data?[1] {
@@ -87,7 +97,9 @@ class CurrentWeatherVC: UIViewController {
         
         let dateFormatter = self.dateFormatter()
         self.nameLabel.text = "\(currentData.name)"
-        self.dateLabel.text = dateFormatter.stringFromDate(currentData.date)
+        let ds = dateFormatter.stringFromDate(currentData.date)
+        print("\(ds), \(currentData.date)")
+        self.dateLabel.text = String(currentData.date)
         self.temperatureLabel.text = Temperature.Fahrenheit.convertKelvin(currentData.tempKelvin)
         self.weatherLabel.text = "\(currentData.weather)"
     }
@@ -109,7 +121,7 @@ class CurrentWeatherVC: UIViewController {
     func dateFormatter() ->NSDateFormatter {
         
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = .MediumStyle
+        dateFormatter.dateStyle = .ShortStyle
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US")
         return dateFormatter
     }
