@@ -9,7 +9,6 @@
 import UIKit
 
 class CurrentWeatherVC: UIViewController {
-
     
     @IBOutlet weak var todayView: UIView!
     @IBOutlet weak var tomorrowView: UIView!
@@ -23,8 +22,8 @@ class CurrentWeatherVC: UIViewController {
     @IBOutlet weak var tomorrowLabel: UILabel!
     @IBOutlet weak var dayAfterTomorrowLabel: UILabel!
     
-    weak var dataCache:WeatherDataCache?
-    
+    var dataCache:WeatherDataCache?
+    var todaysDate:NSDate?
     
     // MARK: - Segues
     @IBAction func showDetail(sender: UIButton) {
@@ -43,6 +42,7 @@ class CurrentWeatherVC: UIViewController {
             }
             // Inject dataCache dependancy.
             if let destination = segue.destinationViewController as? WeatherDetailVC {
+                destination.todayDate = self.todaysDate
                 destination.dataCache = self.dataCache
             }
         }
@@ -52,10 +52,11 @@ class CurrentWeatherVC: UIViewController {
         
         super.viewDidLoad()
         
-        let dataCache = WeatherDataCache()
-        dataCache.getWeather("London") { (data, error) in
+        self.dataCache = WeatherDataCache()
+        self.dataCache?.getWeather("London") { (data, error) in
             
             if let todayData = data?.first {
+                self.todaysDate = todayData.first?.date
                 self.updateTodayUI(todayData)
             }
             if let tomorrowData = data?[1] {
