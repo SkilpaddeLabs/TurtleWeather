@@ -115,7 +115,7 @@ class WeatherData:CustomStringConvertible {
         }
     }
     
-    var description: String {
+    var description:String {
         
         var desc = "\(date) \n"
         desc = desc + "Rain: \(rain) \n"

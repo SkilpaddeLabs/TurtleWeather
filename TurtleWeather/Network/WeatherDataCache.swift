@@ -31,6 +31,7 @@ class WeatherDataCache {
         
         let timoutInterval = 15.0 * 60.0
         
+        // Check if we have cached data.
         if let data = weatherData,
            lastDate = lastUpdate
            where lastDate.timeIntervalSinceNow < timoutInterval {
@@ -40,8 +41,9 @@ class WeatherDataCache {
             dispatch_async(dispatch_get_main_queue()) {
                 completion(splitData, nil)
             }
+            return
         }
-        
+        // Make network request.
         dispatch_async(networkQueue) {
             
             NetworkManager.getWeather(cityName) { (data, error) in
@@ -54,8 +56,10 @@ class WeatherDataCache {
                     print("Error decoding json data")
                     return
                 }
+                // Set last update time.
                 self.lastUpdate = NSDate()
                 print(self.lastUpdate)
+                print(decodedData)
                 self.weatherData = decodedData
                 //self.printWeatherData(decodedData)
                 let splitData = self.splitDataByDays(decodedData)
