@@ -35,6 +35,10 @@ struct OWMKey {
     static let MainHumidity = "humidity"
     static let MainPressure = "pressure"
     static let MainCity = "name"
+    
+    static let Sys = "sys"
+    static let SysSunrise = "sunrise"
+    static let SysSunset = "sunset"
 }
 
 // Organizes API calls for Open Weather Map

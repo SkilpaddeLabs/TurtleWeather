@@ -20,7 +20,6 @@ class ForecastVC: UITableViewController {
     
     // MARK: - Segues
     @IBAction func showDetail(sender: UIButton) {
-        
         runDetailSegue(sender.tag)
     }
     
@@ -61,7 +60,6 @@ class ForecastVC: UITableViewController {
                            forCellReuseIdentifier: "ForecastCell")
         
         self.todayCity = "London"
-        
         self.dataCache = WeatherDataCache()
         self.dataCache?.getForecast(todayCity) { (data, error) in
             
@@ -76,6 +74,7 @@ class ForecastVC: UITableViewController {
             
             self.weatherData = data
             self.todayDate = NSDate()
+            self.todayCity = data?.name ?? ""
             self.tableView.reloadData()
         }
     }
@@ -142,11 +141,21 @@ class ForecastVC: UITableViewController {
             cell.dateLabel.text = dateFormatter().stringFromDate(currentData.date)
             cell.temperatureLabel.text = Temperature.Fahrenheit.convertKelvin(currentData.tempKelvin)
             cell.weatherLabel.text = "\(currentData.weather)"
+            
+            cell.sunriseLabel.text = "Sunrise: \(currentData.sunrise)"
+            cell.sunsetLabel.text = "Sunset: \(currentData.sunset)"
+            cell.humidityLabel.text = "Humidity: \(currentData.humidity)"
+            cell.pressureLabel.text = "Pressure: \(currentData.pressure)"
         } else {
             cell.nameLabel.text = "-"
             cell.dateLabel.text = "-"
             cell.temperatureLabel.text = "-"
             cell.weatherLabel.text = "-"
+            
+            cell.sunriseLabel.text = "-"
+            cell.sunsetLabel.text = "-"
+            cell.humidityLabel.text = "-"
+            cell.pressureLabel.text = "-"
         }
     }
     

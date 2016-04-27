@@ -24,8 +24,11 @@ struct ForecastData:CustomStringConvertible {
     let windSpeed:Float
     let weather:String
     let weatherDescription:String
+    // Weather Only
     let name:String
-
+    let sunrise:Int
+    let sunset:Int
+    
     static func standardFormat() ->NSDateFormatter {
         
         let dateFormatter = NSDateFormatter()
@@ -79,6 +82,7 @@ struct ForecastData:CustomStringConvertible {
         if let weatherCityName = jsonDict[OWMKey.CityName] as? String {
             aName = weatherCityName
         }
+        self.name = aName
     
         // Rain
         if let rainDict = jsonDict[OWMKey.Rain] as? [String:AnyObject],
@@ -138,7 +142,18 @@ struct ForecastData:CustomStringConvertible {
             self.humidity = 0.0
             self.pressure = 0.0
         }
-        self.name = aName
+        
+        // Sys
+        if let sys = jsonDict[OWMKey.Sys] as? [String:AnyObject],
+           let sunrise = sys[OWMKey.SysSunrise] as? Int,
+           let sunset = sys[OWMKey.SysSunset] as? Int {
+            // TODO: Format time - Ints?Dates?
+            self.sunrise = sunrise
+            self.sunset = sunset
+        } else {
+            self.sunrise = 0
+            self.sunset = 0
+        }
     }
     
     var description:String {
