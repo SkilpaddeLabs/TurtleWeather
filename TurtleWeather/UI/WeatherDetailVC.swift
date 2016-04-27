@@ -36,13 +36,40 @@ class WeatherDetailVC: UITableViewController {
         }
     }
     
+    // Extracts Hour String from date
+    func hourFormatter() ->NSDateFormatter {
+        
+        let dateFormatter = NSDateFormatter()
+        // TODO: set timezone variable
+        dateFormatter.timeZone = NSTimeZone(name: "Europe/London")
+        dateFormatter.timeStyle = .ShortStyle
+        dateFormatter.locale = NSLocale(localeIdentifier: "en_US")
+        return dateFormatter
+    }
+    
+    func dateFormatter() ->NSDateFormatter {
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = .ShortStyle
+        dateFormatter.timeZone = NSTimeZone(name: "Europe/London")
+        dateFormatter.locale = NSLocale(localeIdentifier: "en_US")
+        return dateFormatter
+    }
+    
+    
+    
     // MARK: - UITableView
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return String(todayData?.first?.date ?? "")
+        
+        if let aDate = todayData?.first?.date {
+            return dateFormatter().stringFromDate(aDate)
+        } else {
+            return nil
+        }
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -53,8 +80,12 @@ class WeatherDetailVC: UITableViewController {
         
         let cell = tableView.dequeueReusableCellWithIdentifier( "DetailCell",
                                                   forIndexPath: indexPath)
-    
-        cell.textLabel?.text = "\(todayData?[indexPath.row].date)"
+        
+        if let data = todayData?[indexPath.row] {
+            let hour = "\(hourFormatter().stringFromDate(data.date))"
+            let temp = Temperature.Fahrenheit.convertKelvin(data.tempKelvin)
+            cell.textLabel?.text = "\(hour) - \(temp) - \(data.weatherDescription)"
+        }
         return cell
     }
 }

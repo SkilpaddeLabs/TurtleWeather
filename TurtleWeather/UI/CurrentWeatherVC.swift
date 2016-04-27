@@ -42,9 +42,8 @@ class CurrentWeatherVC: UIViewController {
                 
                 // Pass date depending on which button was pushed.
                 let interval = Double(buttonNumber*24*60*60)
-                
                 let destinationDate = todayDate?.dateByAddingTimeInterval(interval)
-                print("\(interval) \(destinationDate)")
+                
                 // Inject dataCache dependancy.
                 if let destination = segue.destinationViewController as? WeatherDetailVC {
                     
@@ -95,11 +94,8 @@ class CurrentWeatherVC: UIViewController {
             return
         }
         
-        let dateFormatter = self.dateFormatter()
         self.nameLabel.text = "\(currentData.name)"
-        let ds = dateFormatter.stringFromDate(currentData.date)
-        print("\(ds), \(currentData.date)")
-        self.dateLabel.text = String(currentData.date)
+        self.dateLabel.text = dateFormatter().stringFromDate(currentData.date)
         self.temperatureLabel.text = Temperature.Fahrenheit.convertKelvin(currentData.tempKelvin)
         self.weatherLabel.text = "\(currentData.weather)"
     }
@@ -122,6 +118,8 @@ class CurrentWeatherVC: UIViewController {
         
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = .ShortStyle
+        dateFormatter.timeStyle = .ShortStyle
+        dateFormatter.timeZone = NSTimeZone(name: "Europe/London")
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US")
         return dateFormatter
     }
