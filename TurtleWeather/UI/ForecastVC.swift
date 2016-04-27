@@ -142,8 +142,11 @@ class ForecastVC: UITableViewController {
             cell.temperatureLabel.text = Temperature.Fahrenheit.convertKelvin(currentData.tempKelvin)
             cell.weatherLabel.text = "\(currentData.weather)"
             
-            cell.sunriseLabel.text = "Sunrise: \(currentData.sunrise)"
-            cell.sunsetLabel.text = "Sunset: \(currentData.sunset)"
+            let formatter = hourFormatter()
+            let sunriseString = formatter.stringFromDate(currentData.sunrise)
+            let sunsetString = formatter.stringFromDate(currentData.sunset)
+            cell.sunriseLabel.text = "Sunrise: \(sunriseString)"
+            cell.sunsetLabel.text = "Sunset: \(sunsetString)"
             cell.humidityLabel.text = "Humidity: \(currentData.humidity)"
             cell.pressureLabel.text = "Pressure: \(currentData.pressure)"
         } else {
@@ -163,7 +166,7 @@ class ForecastVC: UITableViewController {
         
         if let dayData = forecastData?[index] {
             
-            let formattedDate = dateFormatter(withTime: true).stringFromDate(dayData.first!.date)
+            let formattedDate = dateFormatter(withTime: false).stringFromDate(dayData.first!.date)
             let dateString = index > 0 ? formattedDate : "Tomorrow"
             cell.forecastLabel.text = self.weatherString(dateString, weatherData:dayData)
             cell.forecastLabel.adjustsFontSizeToFitWidth = true
@@ -181,7 +184,7 @@ class ForecastVC: UITableViewController {
         let formatHigh = Temperature.Fahrenheit.convertKelvin(highTemp)
         let formatLow = Temperature.Fahrenheit.convertKelvin(lowTemp)
         
-        return "\(day) - \(weatherString) Hi: \(formatHigh) Lo: \(formatLow)"
+        return "\(day)   \(weatherString)   Lo: \(formatLow)   Hi: \(formatHigh)"
     }
     
     func dateFormatter(withTime withTime:Bool = true) ->NSDateFormatter {
@@ -192,6 +195,16 @@ class ForecastVC: UITableViewController {
             dateFormatter.timeStyle = .ShortStyle
         }
         dateFormatter.timeZone = NSTimeZone(name: "Europe/London")
+        dateFormatter.locale = NSLocale(localeIdentifier: "en_US")
+        return dateFormatter
+    }
+    
+    func hourFormatter() ->NSDateFormatter {
+        
+        let dateFormatter = NSDateFormatter()
+        // TODO: set timezone variable
+        dateFormatter.timeZone = NSTimeZone(name: "Europe/London")
+        dateFormatter.timeStyle = .ShortStyle
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US")
         return dateFormatter
     }

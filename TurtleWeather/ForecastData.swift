@@ -26,8 +26,8 @@ struct ForecastData:CustomStringConvertible {
     let weatherDescription:String
     // Weather Only
     let name:String
-    let sunrise:Int
-    let sunset:Int
+    let sunrise:NSDate
+    let sunset:NSDate
     
     static func standardFormat() ->NSDateFormatter {
         
@@ -145,14 +145,14 @@ struct ForecastData:CustomStringConvertible {
         
         // Sys
         if let sys = jsonDict[OWMKey.Sys] as? [String:AnyObject],
-           let sunrise = sys[OWMKey.SysSunrise] as? Int,
-           let sunset = sys[OWMKey.SysSunset] as? Int {
+           let sunrise = sys[OWMKey.SysSunrise] as? Double,
+           let sunset = sys[OWMKey.SysSunset] as? Double {
             // TODO: Format time - Ints?Dates?
-            self.sunrise = sunrise
-            self.sunset = sunset
+            self.sunrise = NSDate(timeIntervalSince1970:sunrise)
+            self.sunset = NSDate(timeIntervalSince1970:sunset)
         } else {
-            self.sunrise = 0
-            self.sunset = 0
+            self.sunrise = NSDate.distantPast()
+            self.sunset = NSDate.distantFuture()
         }
     }
     
