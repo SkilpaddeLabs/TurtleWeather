@@ -147,8 +147,8 @@ class ForecastVC: UITableViewController {
             let sunsetString = formatter.stringFromDate(currentData.sunset)
             cell.sunriseLabel.text = "Sunrise: \(sunriseString)"
             cell.sunsetLabel.text = "Sunset: \(sunsetString)"
-            cell.humidityLabel.text = "Humidity: \(currentData.humidity)"
-            cell.pressureLabel.text = "Pressure: \(currentData.pressure)"
+            cell.humidityLabel.text = "Humidity: \(currentData.humidity)%"
+            cell.pressureLabel.text = "Pressure: \(currentData.pressure) hpa"
         } else {
             cell.nameLabel.text = "-"
             cell.dateLabel.text = "-"
@@ -167,7 +167,7 @@ class ForecastVC: UITableViewController {
         if let dayData = forecastData?[index] {
             
             let formattedDate = dateFormatter(withTime: false).stringFromDate(dayData.first!.date)
-            let dateString = index > 0 ? formattedDate : "Tomorrow"
+            let dateString = index > 1 ? formattedDate : "Tomorrow"
             cell.forecastLabel.text = self.weatherString(dateString, weatherData:dayData)
             cell.forecastLabel.adjustsFontSizeToFitWidth = true
         }
