@@ -8,16 +8,7 @@
 
 import UIKit
 
-class ForecastVC: UIViewController,
-    UITableViewDelegate, UITableViewDataSource {
-    
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var temperatureLabel: UILabel!
-    @IBOutlet weak var weatherLabel: UILabel!
-    
-    @IBOutlet weak var weatherView: UIView!
-    @IBOutlet weak var forecastTableView: UITableView!
+class ForecastVC: UITableViewController {
     
     var dataCache:WeatherDataCache?
     var todayDate:NSDate?
@@ -48,7 +39,7 @@ class ForecastVC: UIViewController,
                 let destinationDate = todayDate?.dateByAddingTimeInterval(interval)
                 
                 // Inject dataCache dependancy.
-                if let destination = segue.destinationViewController as? WeatherDetailVC {
+                if let destination = segue.destinationViewController as? DetailVC {
                     
                     destination.dataCache = self.dataCache
                     destination.todayDate = destinationDate
@@ -62,6 +53,12 @@ class ForecastVC: UIViewController,
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        self.tableView.registerNib( UINib(nibName: "WeatherCell", bundle: nil),
+                           forCellReuseIdentifier: "WeatherCell")
+        self.tableView.registerNib( UINib(nibName: "ForecastCell", bundle: nil),
+                           forCellReuseIdentifier: "ForecastCell")
+        
         self.todayCity = "London"
         
         self.dataCache = WeatherDataCache()
@@ -70,74 +67,88 @@ class ForecastVC: UIViewController,
             if let todayData = data?.first {
                 self.forecastData = data!
                 self.todayDate = todayData.first?.date
-                self.updateWeatherUI(todayData)
-                self.forecastTableView.reloadData()
+                //self.updateWeatherUI(todayData)
+                self.tableView.reloadData()
             }
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
-        roundCorners()
-    }
-    
-    func roundCorners() {
-        
-        weatherView.layer.cornerRadius = 10.0
-    }
-    
-    func updateWeatherUI(data:[ForecastData]) {
-        
-        guard let currentData = data.first else {
-            return
-        }
-        
-        self.nameLabel.text = "\(currentData.name)"
-        self.dateLabel.text = dateFormatter().stringFromDate(currentData.date)
-        self.temperatureLabel.text = Temperature.Fahrenheit.convertKelvin(currentData.tempKelvin)
-        self.weatherLabel.text = "\(currentData.weather)"
-    }
     // MARK: - UITableViewDelegate
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if let someData = forecastData {
-            return someData.count - 1
+            return someData.count
         } else {
             return 0
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier( "ForecastCell",
-                                                                forIndexPath: indexPath)
-        cell.contentView.backgroundColor = weatherView.backgroundColor
-        cell.contentView.layer.cornerRadius = 10.0
-        
-        
-        if let dayData = forecastData?[indexPath.row + 1] {
-            
-            cell.textLabel?.backgroundColor = weatherView.backgroundColor
-            
-            let formattedDate = dateFormatter(withTime: true).stringFromDate(dayData.first!.date)
-            let dateString = indexPath.row > 0 ? formattedDate : "Tomorrow"
-            cell.textLabel?.text = self.weatherString(dateString, weatherData:dayData)
-            cell.textLabel?.adjustsFontSizeToFitWidth = true
+        if indexPath.row == 0 {
+            return 400.0
+        } else {
+            return 90.0
         }
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let cell:UITableViewCell
+        if indexPath.row == 0 {
+            
+            let wCell = tableView.dequeueReusableCellWithIdentifier( "WeatherCell",
+                                            forIndexPath: indexPath) as! WeatherCell
+            
+            updateWeatherCell(wCell)
+            cell = wCell
+            
+        } else {
+        
+            let fCell = tableView.dequeueReusableCellWithIdentifier( "ForecastCell",
+                                                  forIndexPath: indexPath) as! ForecastCell
+            
+            updateForecastCell(fCell, atIndex: indexPath.row)
+            cell = fCell
+        }
+
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        runDetailSegue(indexPath.row + 1)
+        runDetailSegue(indexPath.row)
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
     
     // MARK: - Utility
+    func updateWeatherCell(cell:WeatherCell) {
+        
+        // TODO: Weather API not forecast
+        if let currentData = forecastData?.first?.first {
+            cell.nameLabel.text = "\(currentData.name)"
+            cell.dateLabel.text = dateFormatter().stringFromDate(currentData.date)
+            cell.temperatureLabel.text = Temperature.Fahrenheit.convertKelvin(currentData.tempKelvin)
+            cell.weatherLabel.text = "\(currentData.weather)"
+        }
+    }
+    
+    func updateForecastCell(cell:ForecastCell, atIndex index:Int) {
+        
+        if let dayData = forecastData?[index] {
+            
+            let formattedDate = dateFormatter(withTime: true).stringFromDate(dayData.first!.date)
+            let dateString = index > 0 ? formattedDate : "Tomorrow"
+            cell.forecastLabel.text = self.weatherString(dateString, weatherData:dayData)
+            cell.forecastLabel.adjustsFontSizeToFitWidth = true
+        }
+    }
+    
     func weatherString(day:String, weatherData:[ForecastData]) ->String {
         
         let weatherString = weatherData.first?.weather ?? ""

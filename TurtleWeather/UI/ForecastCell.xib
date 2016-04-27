@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="263" id="KGk-i7-Jjw" customClass="ForecastCell" customModule="TurtleWeather" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="583" height="263"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="583" height="262"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oeU-Ro-mI4">
+                        <rect key="frame" x="11" y="11" width="561" height="240"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gCx-iG-n9g">
+                                <rect key="frame" x="20" y="110" width="521" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.45882352941176469" green="1" blue="0.38823529411764707" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="gCx-iG-n9g" firstAttribute="centerY" secondItem="oeU-Ro-mI4" secondAttribute="centerY" id="Ecn-Dg-scz"/>
+                            <constraint firstAttribute="trailing" secondItem="gCx-iG-n9g" secondAttribute="trailing" constant="20" symbolic="YES" id="N9f-Sp-hGO"/>
+                            <constraint firstItem="gCx-iG-n9g" firstAttribute="leading" secondItem="oeU-Ro-mI4" secondAttribute="leading" constant="20" symbolic="YES" id="pHJ-p3-ekd"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailingMargin" secondItem="oeU-Ro-mI4" secondAttribute="trailing" constant="3" id="Um3-P1-aEy"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="oeU-Ro-mI4" secondAttribute="bottom" constant="3" id="tv9-ah-umy"/>
+                    <constraint firstItem="oeU-Ro-mI4" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="3" id="uec-5O-Wvv"/>
+                    <constraint firstItem="oeU-Ro-mI4" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="3" id="uik-lj-KJc"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="forecastLabel" destination="gCx-iG-n9g" id="Mjz-5h-ADq"/>
+                <outlet property="weatherView" destination="oeU-Ro-mI4" id="euG-I1-t34"/>
+            </connections>
+            <point key="canvasLocation" x="379.5" y="438.5"/>
+        </tableViewCell>
+    </objects>
+</document>
