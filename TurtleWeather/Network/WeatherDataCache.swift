@@ -10,8 +10,8 @@ import Foundation
 import Alamofire
 
 typealias WeatherCompletion = (NSData?, NSError?)->(Void)
-typealias CityWeatherCompletion = (Array<[WeatherData]>?, NSError?)->(Void)
-typealias CityDayWeatherCompletion = ([WeatherData]?, NSError?)->(Void)
+typealias CityForecastCompletion = (Array<[ForecastData]>?, NSError?)->(Void)
+typealias CityDayForecastCompletion = ([ForecastData]?, NSError?)->(Void)
 
 // Makes network requests and stores data.
 //  Notifies UI that data has been updated.
@@ -21,7 +21,7 @@ class WeatherDataCache {
     
     let timeoutInterval = 15.0 * 60.0
     var lastUpdate:NSDate?
-    var weatherData:[WeatherData]?
+    var weatherData:[ForecastData]?
     // TODO: Serial/Concurrent ???
     let networkQueue = dispatch_queue_create("com.turtleweather.network", DISPATCH_QUEUE_SERIAL)
 
@@ -29,7 +29,7 @@ class WeatherDataCache {
         
     }
     
-    func getWeather(cityName:String, forDate searchDate:NSDate, completion:CityDayWeatherCompletion) {
+    func getForecast(cityName:String, forDate searchDate:NSDate, completion:CityDayForecastCompletion) {
         
         // Check if we have cached data.
         if let data = weatherData,
@@ -49,7 +49,7 @@ class WeatherDataCache {
         }
     }
     
-    func getWeather(cityName:String, completion:CityWeatherCompletion) {
+    func getForecast(cityName:String, completion:CityForecastCompletion) {
         
         // Check if we have cached data.
         if let data = weatherData,
@@ -66,13 +66,13 @@ class WeatherDataCache {
         // Make network request.
         dispatch_async(networkQueue) {
             
-            NetworkManager.getWeather(cityName) { (data, error) in
+            NetworkManager.getForecast(cityName) { (data, error) in
                 
                 guard let cityData = data else {
                     print("Error getting data from network")
                     return
                 }
-                guard let decodedData = WeatherData.dataFromJSON(cityName, jsonData: cityData) else {
+                guard let decodedData = ForecastData.dataFromJSON(cityName, jsonData: cityData) else {
                     print("Error decoding json data")
                     return
                 }
@@ -100,7 +100,7 @@ class WeatherDataCache {
         return calendar
     }
     
-    func splitDataByDays(weatherData:[WeatherData]) ->Array<[WeatherData]>{
+    func splitDataByDays(weatherData:[ForecastData]) ->Array<[ForecastData]>{
         
         // Create calendar object with correct time zone.
         var activeDate = weatherData.first!.date
@@ -108,8 +108,8 @@ class WeatherDataCache {
         let calendar = NSCalendar.currentCalendar()
         
         // Split data into arrays based on date.
-        var days = Array<[WeatherData]>()
-        var currentDay = [WeatherData]()
+        var days = Array<[ForecastData]>()
+        var currentDay = [ForecastData]()
         
         for data in weatherData {
             
@@ -117,7 +117,7 @@ class WeatherDataCache {
     
             if !sameDate {
                 days.append(currentDay)
-                currentDay = [WeatherData]()
+                currentDay = [ForecastData]()
                 activeDate = calendar.startOfDayForDate(data.date)
             }
             currentDay.append(data)
@@ -126,7 +126,7 @@ class WeatherDataCache {
         return days
     }
     
-    func printWeatherData(weatherData:[WeatherData]) {
+    func printWeatherData(weatherData:[ForecastData]) {
         
         for data in weatherData {
             print(data.shortDesc)

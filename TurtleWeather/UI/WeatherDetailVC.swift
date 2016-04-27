@@ -12,7 +12,7 @@ class WeatherDetailVC: UITableViewController {
 
     weak var dataCache:WeatherDataCache?
     var todayDate:NSDate?
-    var todayData:[WeatherData]?
+    var todayData:[ForecastData]?
     var todayCity:String?
     
     // MARK: - View Loading
@@ -28,7 +28,7 @@ class WeatherDetailVC: UITableViewController {
         if let aDay = todayDate,
               aCity = todayCity {
             
-            dataCache?.getWeather( aCity, forDate:aDay) { (data, error) in
+            dataCache?.getForecast(aCity, forDate:aDay) { (data, error) in
                 
                 self.todayData = data
                 self.tableView.reloadData()

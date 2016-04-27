@@ -1,5 +1,5 @@
 //
-//  WeatherData.swift
+//  ForecastData.swift
 //  TurtleWeather
 //
 //  Created by Tim Bolstad on 4/23/16.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class WeatherData:CustomStringConvertible {
+struct ForecastData:CustomStringConvertible {
     
     let date:NSDate
     let rain:Float
@@ -21,27 +21,27 @@ class WeatherData:CustomStringConvertible {
     let weatherDescription:String
     let name:String
 
-    class func standardFormat() ->NSDateFormatter {
+    static func standardFormat() ->NSDateFormatter {
         
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = OWMKey.DateFormat
-        dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC")
+        dateFormatter.timeZone = NSTimeZone(abbreviation: "Europe/London")
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
         return dateFormatter
     }
     
-    class func dataFromJSON(cityName:String, jsonData:NSData) ->[WeatherData]? {
+    static func dataFromJSON(cityName:String, jsonData:NSData) ->[ForecastData]? {
         
         do {
             if let json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: .AllowFragments)
                 as? [String:AnyObject] {
                 
                 // Create a single formatter to pass in to WeatherData()
-                let dateFormatter = WeatherData.standardFormat()
+                let dateFormatter = ForecastData.standardFormat()
                 // Turn JSON dictionary into an array of WeatherData objects
                 if let aList = json[OWMKey.List] as? [[String:AnyObject]] {
                     
-                    return aList.map{ WeatherData(cityName: cityName,
+                    return aList.map{ ForecastData(cityName: cityName,
                                                   jsonDict: $0,
                                              dateFormatter: dateFormatter) }
                 }
@@ -49,10 +49,10 @@ class WeatherData:CustomStringConvertible {
         } catch {
             print("Error Printing London")
         }
-        return [WeatherData]()
+        return [ForecastData]()
     }
     
-    required init(cityName:String, jsonDict: [String:AnyObject], dateFormatter:NSDateFormatter) {
+    init(cityName:String, jsonDict: [String:AnyObject], dateFormatter:NSDateFormatter) {
         
         // City Name
         self.name = cityName

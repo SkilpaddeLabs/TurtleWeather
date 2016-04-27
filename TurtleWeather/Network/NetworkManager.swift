@@ -16,21 +16,41 @@ class NetworkManager {
 //        afManager = Alamofire.Manager(configuration: config)
     }
     
-    
-    
+
     class func getWeather(city:String, completion:WeatherCompletion) {
         
         
-        Alamofire.request(OWM_APIRouter.City(city))
+        Alamofire.request(OWM_APIRouter.Weather(city))
                  .validate()
-                 .response { (request, response, data, error) in
-        
-            // TODO: Check response for error
-            if let urlResponse = response {
+                 .response{ (request, response, data, error) in
                 
-                //print(urlResponse)
-                //return
-            }
+//                // TODO: Check response for error
+//                if let urlResponse = response {
+//                    //print(urlResponse)
+//                    //return
+//                }
+                // TODO: Do something with errors
+                if let anError = error {
+                    print(anError)
+                    return
+                }
+                completion(data, error)
+        }
+    }
+    
+    class func getForecast(city:String, completion:WeatherCompletion) {
+        
+        
+        Alamofire.request(OWM_APIRouter.Forecast(city))
+                 .validate()
+                 .response{ (request, response, data, error) in
+        
+//            // TODO: Check response for error
+//            if let urlResponse = response {
+//                
+//                //print(urlResponse)
+//                //return
+//            }
             // TODO: Do something with errors
             if let anError = error {
                 print(anError)

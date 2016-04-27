@@ -38,15 +38,17 @@ enum OWM_APIRouter:URLRequestConvertible {
     
     // Example URL Format "http://api.openweathermap.org/data/2.5/forecast?q=London&APPID=XXXXXXXX"
     static let baseUrlString = "http://api.openweathermap.org"
-    static let forcastPath = "/data/2.5/forecast"
     static let APPID = "get your own id"
     
-    case City(String) // http://api.openweathermap.org/data/2.5/forecast?q=London,us
+    case Weather(String) // http://api.openweathermap.org/data/2.5/weather?q=London
+    case Forecast(String) // http://api.openweathermap.org/data/2.5/forecast?q=London,us
     
     // Returns HTTP method for each API endpoint.
     var method:Alamofire.Method {
         switch self {
-        case .City:
+        case .Weather:
+            return .GET
+        case .Forecast:
             return .GET
         }
     }
@@ -55,15 +57,19 @@ enum OWM_APIRouter:URLRequestConvertible {
         // Find relative path for API endpoint.
         let relative:String?
         switch self {
-        case .City:
-            relative = OWM_APIRouter.forcastPath
+        case .Weather:
+            relative = "/data/2.5/weather"
+        case .Forecast:
+            relative = "/data/2.5/forecast"
         }
         return relative
     }
     
     var parameters:[String:AnyObject]? {
         switch self {
-        case .City(let city):
+        case .Weather(let city):
+            return ["q":city, "APPID":OWM_APIRouter.APPID]
+        case .Forecast(let city):
             return ["q":city, "APPID":OWM_APIRouter.APPID]
         }
     }

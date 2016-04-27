@@ -62,7 +62,7 @@ class CurrentWeatherVC: UIViewController {
         self.todayCity = "London"
         
         self.dataCache = WeatherDataCache()
-        self.dataCache?.getWeather(todayCity) { (data, error) in
+        self.dataCache?.getForecast(todayCity) { (data, error) in
             
             if let todayData = data?.first {
                 self.todayDate = todayData.first?.date
@@ -88,7 +88,7 @@ class CurrentWeatherVC: UIViewController {
         dayAfterTomorrowView.layer.cornerRadius = 10.0
     }
     
-    func updateTodayUI(data:[WeatherData]) {
+    func updateTodayUI(data:[ForecastData]) {
         
         guard let currentData = data.first else {
             return
@@ -100,7 +100,7 @@ class CurrentWeatherVC: UIViewController {
         self.weatherLabel.text = "\(currentData.weather)"
     }
     
-    func weatherString(day:String, weatherData:[WeatherData]) ->String {
+    func weatherString(day:String, weatherData:[ForecastData]) ->String {
         
         let weatherString = weatherData.first?.weather ?? ""
         
