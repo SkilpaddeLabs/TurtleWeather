@@ -29,30 +29,18 @@ struct ForecastData:CustomStringConvertible {
     let sunrise:NSDate
     let sunset:NSDate
     
-    static func standardFormat() ->NSDateFormatter {
-        
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = OWMKey.DateFormat
-        dateFormatter.timeZone = NSTimeZone(abbreviation: "Europe/London")
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-        return dateFormatter
-    }
-    
     static func dataFromJSON(cityName:String, jsonData:NSData, isWeather:Bool = false) ->[ForecastData]? {
         
         do {
             if let json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: .AllowFragments)
                 as? [String:AnyObject] {
-                // Create a single formatter to pass in to WeatherData()
-                let dateFormatter = ForecastData.standardFormat()
                 
                 // Weather API returns a single struct
                 // Forecast API returns an array.
                 if isWeather {
                     // Turn JSON dictionary into a ForecastData struct.
                     let weatherData = ForecastData(cityName: nil,
-                                                   jsonDict: json,
-                                              dateFormatter: dateFormatter)
+                                                   jsonDict: json)
                     return [weatherData]
                     
                 } else {
@@ -63,8 +51,7 @@ struct ForecastData:CustomStringConvertible {
                     if let aList = json[OWMKey.List] as? Array<[String:AnyObject]> {
                         
                         return aList.map{ ForecastData(cityName: aName,
-                                                       jsonDict: $0,
-                                                  dateFormatter: dateFormatter) }
+                                                       jsonDict: $0) }
                     }
                 }
             }
@@ -74,7 +61,7 @@ struct ForecastData:CustomStringConvertible {
         return [ForecastData]()
     }
     
-    init(cityName:String?, jsonDict: [String:AnyObject], dateFormatter:NSDateFormatter) {
+    init(cityName:String?, jsonDict: [String:AnyObject]) {
         
         // Forecast City Name
         var aName = cityName ?? "NAME"
@@ -93,10 +80,10 @@ struct ForecastData:CustomStringConvertible {
         }
         
         // Date
-        // TODO: Weather no 
-        if let dateString = jsonDict[OWMKey.Date] as? String {
+        // TODO: Weather no
+        if let dateInt = jsonDict[OWMKey.Timestamp] as? Double {
             // TODO: handle nil
-            date = dateFormatter.dateFromString(dateString)!
+            date = NSDate.init(timeIntervalSince1970: dateInt)
         } else {
             date = NSDate()
         }

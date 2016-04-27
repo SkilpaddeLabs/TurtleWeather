@@ -19,8 +19,9 @@ struct OWMKey {
     
     static let Rain = "rain" // Not in weather.
     static let RainKey = "3h"
-    static let Date = "dt_txt"
-    static let DateFormat = "yyyy-mm-dd' 'HH:mm:ss"
+//    static let Date = "dt_txt"
+//    static let DateFormat = "yyyy-mm-dd' 'HH:mm:ss"
+    static let Timestamp = "dt"
     
     static let Weather = "weather"
     static let WeatherDescription = "description"
