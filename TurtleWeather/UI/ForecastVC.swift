@@ -16,6 +16,7 @@ class ForecastVC: UITableViewController {
     
     // TODO: nope
     var forecastData:Array<[ForecastData]>?
+    var weatherData:ForecastData?
     
     // MARK: - Segues
     @IBAction func showDetail(sender: UIButton) {
@@ -67,9 +68,15 @@ class ForecastVC: UITableViewController {
             if let todayData = data?.first {
                 self.forecastData = data!
                 self.todayDate = todayData.first?.date
-                //self.updateWeatherUI(todayData)
                 self.tableView.reloadData()
             }
+        }
+        
+        self.dataCache?.getWeather(todayCity) { (data, error) in
+            
+            self.weatherData = data
+            self.todayDate = NSDate()
+            self.tableView.reloadData()
         }
     }
     
@@ -83,7 +90,7 @@ class ForecastVC: UITableViewController {
         if let someData = forecastData {
             return someData.count
         } else {
-            return 0
+            return 1
         }
     }
     
@@ -130,11 +137,16 @@ class ForecastVC: UITableViewController {
     func updateWeatherCell(cell:WeatherCell) {
         
         // TODO: Weather API not forecast
-        if let currentData = forecastData?.first?.first {
+        if let currentData = weatherData {
             cell.nameLabel.text = "\(currentData.name)"
             cell.dateLabel.text = dateFormatter().stringFromDate(currentData.date)
             cell.temperatureLabel.text = Temperature.Fahrenheit.convertKelvin(currentData.tempKelvin)
             cell.weatherLabel.text = "\(currentData.weather)"
+        } else {
+            cell.nameLabel.text = "-"
+            cell.dateLabel.text = "-"
+            cell.temperatureLabel.text = "-"
+            cell.weatherLabel.text = "-"
         }
     }
     

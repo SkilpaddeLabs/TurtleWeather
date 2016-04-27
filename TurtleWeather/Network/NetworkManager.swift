@@ -9,15 +9,14 @@
 import Foundation
 import Alamofire
 
+typealias NetworkAPICompletion = (NSData?, NSError?)->(Void)
+
 class NetworkManager {
 
     init() {
-//        let config = NSURLSessionConfiguration.defaultSessionConfiguration()
-//        afManager = Alamofire.Manager(configuration: config)
     }
     
-
-    class func getWeather(city:String, completion:WeatherCompletion) {
+    class func getWeather(city:String, completion:NetworkAPICompletion) {
         
         
         Alamofire.request(OWM_APIRouter.Weather(city))
@@ -38,7 +37,7 @@ class NetworkManager {
         }
     }
     
-    class func getForecast(city:String, completion:WeatherCompletion) {
+    class func getForecast(city:String, completion:NetworkAPICompletion) {
         
         
         Alamofire.request(OWM_APIRouter.Forecast(city))

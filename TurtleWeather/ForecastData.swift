@@ -8,6 +8,11 @@
 
 import Foundation
 
+// Structure for holding weather data.
+// There are some minor differences between the data returned 
+// by the Weather and Forecast APIs
+// Weather uses a single one.
+// Forecast uses an array of structs.
 struct ForecastData:CustomStringConvertible {
     
     let date:NSDate
@@ -30,20 +35,34 @@ struct ForecastData:CustomStringConvertible {
         return dateFormatter
     }
     
-    static func dataFromJSON(cityName:String, jsonData:NSData) ->[ForecastData]? {
+    static func dataFromJSON(cityName:String, jsonData:NSData, isWeather:Bool = false) ->[ForecastData]? {
         
         do {
             if let json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: .AllowFragments)
                 as? [String:AnyObject] {
-                
                 // Create a single formatter to pass in to WeatherData()
                 let dateFormatter = ForecastData.standardFormat()
-                // Turn JSON dictionary into an array of WeatherData objects
-                if let aList = json[OWMKey.List] as? [[String:AnyObject]] {
+                
+                // Weather API returns a single struct
+                // Forecast API returns an array.
+                if isWeather {
+                    // Turn JSON dictionary into a ForecastData struct.
+                    let weatherData = ForecastData(cityName: nil,
+                                                   jsonDict: json,
+                                              dateFormatter: dateFormatter)
+                    return [weatherData]
                     
-                    return aList.map{ ForecastData(cityName: cityName,
-                                                  jsonDict: $0,
-                                             dateFormatter: dateFormatter) }
+                } else {
+                    // Get City Name - should be same for whole array.
+                    let aCity = json[OWMKey.City] as? [String:AnyObject]
+                    let aName = aCity?[OWMKey.CityName] as? String ?? "NAME"
+                    // Turn JSON dictionary into an array of ForecastData
+                    if let aList = json[OWMKey.List] as? Array<[String:AnyObject]> {
+                        
+                        return aList.map{ ForecastData(cityName: aName,
+                                                       jsonDict: $0,
+                                                  dateFormatter: dateFormatter) }
+                    }
                 }
             }
         } catch {
@@ -52,10 +71,15 @@ struct ForecastData:CustomStringConvertible {
         return [ForecastData]()
     }
     
-    init(cityName:String, jsonDict: [String:AnyObject], dateFormatter:NSDateFormatter) {
+    init(cityName:String?, jsonDict: [String:AnyObject], dateFormatter:NSDateFormatter) {
         
-        // City Name
-        self.name = cityName
+        // Forecast City Name
+        var aName = cityName ?? "NAME"
+        // Weather City Name
+        if let weatherCityName = jsonDict[OWMKey.CityName] as? String {
+            aName = weatherCityName
+        }
+    
         // Rain
         if let rainDict = jsonDict[OWMKey.Rain] as? [String:AnyObject],
            let rainVal = rainDict[OWMKey.RainKey] as? Float {
@@ -65,6 +89,7 @@ struct ForecastData:CustomStringConvertible {
         }
         
         // Date
+        // TODO: Weather no 
         if let dateString = jsonDict[OWMKey.Date] as? String {
             // TODO: handle nil
             date = dateFormatter.dateFromString(dateString)!
@@ -113,6 +138,7 @@ struct ForecastData:CustomStringConvertible {
             self.humidity = 0.0
             self.pressure = 0.0
         }
+        self.name = aName
     }
     
     var description:String {
