@@ -13,6 +13,7 @@
 		142C83761CD0FD35005AC3FB /* ForecastCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 142C83741CD0FD35005AC3FB /* ForecastCell.xib */; };
 		143CACAE1CCE82E7005EF688 /* Temperature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143CACAD1CCE82E7005EF688 /* Temperature.swift */; };
 		143CACB01CCEACF8005EF688 /* DetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143CACAF1CCEACF8005EF688 /* DetailVC.swift */; };
+		149D11A71CD2338400B286D3 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149D11A61CD2338400B286D3 /* DataStore.swift */; };
 		3A1D4A3D1CC91D6C00CCAF14 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1D4A3C1CC91D6C00CCAF14 /* NetworkManager.swift */; };
 		3A1D4A3F1CCA5DF900CCAF14 /* OWM_APIRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1D4A3E1CCA5DF900CCAF14 /* OWM_APIRouter.swift */; };
 		3A1D4A411CCBB38F00CCAF14 /* ForecastData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1D4A401CCBB38F00CCAF14 /* ForecastData.swift */; };
@@ -45,6 +46,7 @@
 		142C83741CD0FD35005AC3FB /* ForecastCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ForecastCell.xib; path = UI/ForecastCell.xib; sourceTree = "<group>"; };
 		143CACAD1CCE82E7005EF688 /* Temperature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Temperature.swift; sourceTree = "<group>"; };
 		143CACAF1CCEACF8005EF688 /* DetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailVC.swift; path = UI/DetailVC.swift; sourceTree = "<group>"; };
+		149D11A61CD2338400B286D3 /* DataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStore.swift; path = Data/DataStore.swift; sourceTree = "<group>"; };
 		3543A6B0F04F31D505263DCC /* Pods-TurtleWeatherTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TurtleWeatherTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TurtleWeatherTests/Pods-TurtleWeatherTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3A1D4A3C1CC91D6C00CCAF14 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkManager.swift; path = Network/NetworkManager.swift; sourceTree = "<group>"; };
 		3A1D4A3E1CCA5DF900CCAF14 /* OWM_APIRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OWM_APIRouter.swift; path = Network/OWM_APIRouter.swift; sourceTree = "<group>"; };
@@ -88,6 +90,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		149D11A51CD2335600B286D3 /* DataStore */ = {
+			isa = PBXGroup;
+			children = (
+				149D11A61CD2338400B286D3 /* DataStore.swift */,
+			);
+			name = DataStore;
+			sourceTree = "<group>";
+		};
 		3A1D4A3B1CC91CD900CCAF14 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -136,6 +146,7 @@
 		3AB89FDB1CC83AD400B0885A /* TurtleWeather */ = {
 			isa = PBXGroup;
 			children = (
+				149D11A51CD2335600B286D3 /* DataStore */,
 				3A1D4A3B1CC91CD900CCAF14 /* Network */,
 				3AB671F61CCD155E00FB4F12 /* UI */,
 				3AB89FDC1CC83AD400B0885A /* AppDelegate.swift */,
@@ -380,6 +391,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A7AF1AB1CC91C770089BBBD /* WeatherDataCache.swift in Sources */,
+				149D11A71CD2338400B286D3 /* DataStore.swift in Sources */,
 				3A1D4A411CCBB38F00CCAF14 /* ForecastData.swift in Sources */,
 				142C83751CD0FD35005AC3FB /* ForecastCell.swift in Sources */,
 				142C836E1CD0E841005AC3FB /* WeatherCell.swift in Sources */,

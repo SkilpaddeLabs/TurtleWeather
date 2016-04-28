@@ -25,6 +25,7 @@ class WeatherDataCache {
     var weatherData:ForecastData?
     var forecastData:[ForecastData]?
     // TODO: Serial/Concurrent ???
+    var dataStore:DataStore?
     let networkQueue = dispatch_queue_create("com.turtleweather.network", DISPATCH_QUEUE_SERIAL)
 
     init() {
