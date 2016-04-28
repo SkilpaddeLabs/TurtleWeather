@@ -12,11 +12,7 @@ class ForecastVC: UITableViewController {
     
     var dataCache:WeatherDataCache?
     var todayDate:NSDate?
-    var todayCity:String = "New York,us" {
-        didSet {
-            
-        }
-    }
+    var todayCity:String = "New York,us" 
     
     // TODO: nope
     var forecastData:Array<[ForecastData]>?
@@ -144,12 +140,19 @@ class ForecastVC: UITableViewController {
             cell.dateLabel.text = dateFormatter().stringFromDate(currentData.date)
             cell.temperatureLabel.text = Temperature.Fahrenheit.convertKelvin(currentData.tempKelvin)
             cell.weatherLabel.text = "\(currentData.weather)"
+            if let aSunrise = currentData.sunrise,
+               let aSunset = currentData.sunset {
+                
+                let formatter = hourFormatter()
+                let sunriseString = formatter.stringFromDate(aSunrise)
+                let sunsetString = formatter.stringFromDate(aSunset)
+                cell.sunriseLabel.text = "Sunrise: \(sunriseString)"
+                cell.sunsetLabel.text = "Sunset: \(sunsetString)"
+            } else {
+                cell.sunriseLabel.text = ""
+                cell.sunsetLabel.text = ""
+            }
             
-            let formatter = hourFormatter()
-            let sunriseString = formatter.stringFromDate(currentData.sunrise)
-            let sunsetString = formatter.stringFromDate(currentData.sunset)
-            cell.sunriseLabel.text = "Sunrise: \(sunriseString)"
-            cell.sunsetLabel.text = "Sunset: \(sunsetString)"
             cell.humidityLabel.text = "Humidity: \(currentData.humidity)%"
             cell.pressureLabel.text = "Pressure: \(currentData.pressure) hpa"
         } else {

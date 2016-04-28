@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Alamofire
 
 typealias FullForecastCompletion = (Array<[ForecastData]>?, NSError?)->(Void)
 typealias DayForecastCompletion = ([ForecastData]?, NSError?)->(Void)
@@ -44,12 +45,82 @@ class WeatherDataCache {
             return
         } else {
             // Make Network Request
-            NetworkManager.getWeather(cityName) { (data, error) in
-                self.decodeWeatherData(data, error: error, completion: completion)
+            NetworkManager.getWeather(cityName) { result in
+                // If successful decode data.
+                switch result {
+                case .Success(let data):
+                    self.decodeWeatherData(data, error: nil, completion: completion)
+                case .Failure(let error):
+                    completion(nil, error)
+                }
             }
         }
     }
     
+    // Returns all the forecast events for a given date.
+    // TODO: Don't need to return the whole array of ForecastData
+    //      Just need to return what is displayed in the UITableView.
+    func getForecast(cityName:String, forDate searchDate:NSDate, completion:DayForecastCompletion) {
+        
+        let calendar = calendarForWeatherDate()
+        // Check if we have recently cached data.
+        if let existingData = self.forecastData,
+                   lastDate = self.lastForecastUpdate
+            where lastDate.timeIntervalSinceNow < timeoutInterval {
+            
+            let dayData = self.filterDates(calendar, inData: existingData, filterDate: searchDate)
+            // Update UI
+            dispatch_async(dispatch_get_main_queue()) {
+                completion(dayData, nil)
+            }
+            return
+        } else {
+            // Make Network Request
+            self.getForecast(cityName) { (freshData, error) in
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    if let freshData = self.forecastData {
+                        // Filter by date
+                        let dayData = self.filterDates(calendar, inData: freshData, filterDate: searchDate)
+                        // Update UI
+                        completion(dayData, error)
+                    }
+                }
+            }
+        }
+    }
+    
+    // Returns all the forecast events.
+    func getForecast(cityName:String, completion:FullForecastCompletion) {
+        
+        // Check if we have recently cached data.
+        if let data = self.forecastData,
+           lastDate = self.lastForecastUpdate
+           where lastDate.timeIntervalSinceNow < timeoutInterval {
+           
+            let splitData = self.splitDataByDays(data)
+            // Update caller
+            dispatch_async(dispatch_get_main_queue()) {
+                completion(splitData, nil)
+            }
+            return
+        }
+        // Make network request.
+        dispatch_async(networkQueue) {
+            
+            NetworkManager.getForecast(cityName) { result in
+                
+                switch result {
+                case .Success(let data):
+                    self.decodeForecastData(data, error: nil, completion:completion)
+                case .Failure(let error):
+                    completion(nil, error)
+                }
+            }
+        }
+    }
+    
+    // MARK: - Decoding network results.
     func decodeWeatherData(data:NSData?, error:NSError?, completion:WeatherCompletion) {
         
         guard let weatherData = data else {
@@ -71,52 +142,6 @@ class WeatherDataCache {
         }
     }
     
-    func getForecast(cityName:String, forDate searchDate:NSDate, completion:DayForecastCompletion) {
-        
-        // Check if we have recently cached data.
-        if let data = self.forecastData,
-           lastDate = self.lastForecastUpdate
-            where lastDate.timeIntervalSinceNow < timeoutInterval {
-            
-            let calendar = calendarForWeatherDate()
-            let dayData = self.forecastData?.filter {
-                calendar.isDate($0.date, inSameDayAsDate: searchDate)
-            }
-            
-            // Update caller
-            dispatch_async(dispatch_get_main_queue()) {
-                completion(dayData, nil)
-            }
-            return
-        } else {
-            // Make Network Request
-            
-        }
-    }
-    
-    func getForecast(cityName:String, completion:FullForecastCompletion) {
-        
-        // Check if we have recently cached data.
-        if let data = self.forecastData,
-           lastDate = self.lastForecastUpdate
-           where lastDate.timeIntervalSinceNow < timeoutInterval {
-           
-            let splitData = self.splitDataByDays(data)
-            // Update caller
-            dispatch_async(dispatch_get_main_queue()) {
-                completion(splitData, nil)
-            }
-            return
-        }
-        // Make network request.
-        dispatch_async(networkQueue) {
-            
-            NetworkManager.getForecast(cityName) { (data, error) in
-                self.decodeForecastData(data, error:error, completion:completion)
-            }
-        }
-    }
-    
     func decodeForecastData(data:NSData?, error:NSError?, completion:FullForecastCompletion) {
         
         guard let cityData = data else {
@@ -130,7 +155,6 @@ class WeatherDataCache {
         // Set last update time.
         self.lastForecastUpdate = NSDate()
         self.forecastData = decodedData
-        //self.printWeatherData(decodedData)
         let splitData = self.splitDataByDays(decodedData)
         // Update caller
         dispatch_async(dispatch_get_main_queue()) {
@@ -138,6 +162,7 @@ class WeatherDataCache {
         }
     }
     
+    // MARK: - Utility
     func calendarForWeatherDate() ->NSCalendar {
         
         let calendar = NSCalendar.currentCalendar()
@@ -145,6 +170,13 @@ class WeatherDataCache {
         return calendar
     }
     
+    // Filters array of ForecastData and returns another array that only contains the given date
+    func filterDates(calendar:NSCalendar, inData:[ForecastData], filterDate:NSDate) ->[ForecastData] {
+        
+        return inData.filter { calendar.isDate($0.date, inSameDayAsDate: filterDate) }
+    }
+    
+    // Splits array of ForecastData by date into an array of arrays.
     func splitDataByDays(weatherData:[ForecastData]) ->Array<[ForecastData]>{
         
         // Create calendar object with correct time zone.

@@ -24,10 +24,10 @@ struct ForecastData:CustomStringConvertible {
     let windSpeed:Float
     let weather:String
     let weatherDescription:String
-    // Weather Only
     let name:String
-    let sunrise:NSDate
-    let sunset:NSDate
+    // Weather Only
+    let sunrise:NSDate?
+    let sunset:NSDate?
     
     static func dataFromJSON(cityName:String, jsonData:NSData, isWeather:Bool = false) ->[ForecastData]? {
         
@@ -138,8 +138,8 @@ struct ForecastData:CustomStringConvertible {
             self.sunrise = NSDate(timeIntervalSince1970:sunrise)
             self.sunset = NSDate(timeIntervalSince1970:sunset)
         } else {
-            self.sunrise = NSDate.distantPast()
-            self.sunset = NSDate.distantFuture()
+            self.sunrise = nil
+            self.sunset = nil
         }
     }
     
