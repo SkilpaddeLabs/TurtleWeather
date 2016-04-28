@@ -19,8 +19,6 @@ struct OWMKey {
     
     static let Rain = "rain" // Not in weather.
     static let RainKey = "3h"
-//    static let Date = "dt_txt"
-//    static let DateFormat = "yyyy-mm-dd' 'HH:mm:ss"
     static let Timestamp = "dt"
     
     static let Weather = "weather"
@@ -51,6 +49,7 @@ enum OWM_APIRouter:URLRequestConvertible {
     
     case Weather(String) // http://api.openweathermap.org/data/2.5/weather?q=London
     case Forecast(String) // http://api.openweathermap.org/data/2.5/forecast?q=London,us
+    case Find(String) // http://api.openweathermap.org/data/2.5/find?q=London
     
     // Returns HTTP method for each API endpoint.
     var method:Alamofire.Method {
@@ -58,6 +57,8 @@ enum OWM_APIRouter:URLRequestConvertible {
         case .Weather:
             return .GET
         case .Forecast:
+            return .GET
+        case .Find:
             return .GET
         }
     }
@@ -70,6 +71,8 @@ enum OWM_APIRouter:URLRequestConvertible {
             relative = "/data/2.5/weather"
         case .Forecast:
             relative = "/data/2.5/forecast"
+        case .Find:
+            relative = "/data/2.5/find"
         }
         return relative
     }
@@ -80,6 +83,8 @@ enum OWM_APIRouter:URLRequestConvertible {
             return ["q":city, "APPID":OWM_APIRouter.APPID]
         case .Forecast(let city):
             return ["q":city, "APPID":OWM_APIRouter.APPID]
+        case .Find(let searchTerm):
+            return ["q":searchTerm, "APPID":OWM_APIRouter.APPID]
         }
     }
     

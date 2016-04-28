@@ -43,7 +43,7 @@ class DetailVC: UITableViewController {
         
         let dateFormatter = NSDateFormatter()
         // TODO: set timezone variable
-        dateFormatter.timeZone = NSTimeZone(name: "Europe/London")
+        dateFormatter.timeZone = NSTimeZone(name: "America/New_York")
         dateFormatter.timeStyle = .ShortStyle
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US")
         return dateFormatter
@@ -53,7 +53,7 @@ class DetailVC: UITableViewController {
         
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = .ShortStyle
-        dateFormatter.timeZone = NSTimeZone(name: "Europe/London")
+        dateFormatter.timeZone = NSTimeZone(name: "America/New_York")
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US")
         return dateFormatter
     }

@@ -12,13 +12,13 @@
             <rect key="frame" x="0.0" y="0.0" width="583" height="263"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="583" height="262"/>
+                <rect key="frame" x="0.0" y="0.0" width="583" height="263"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oeU-Ro-mI4">
                         <rect key="frame" x="18" y="10" width="547" height="242"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gCx-iG-n9g">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="gCx-iG-n9g">
                                 <rect key="frame" x="20" y="111" width="507" height="21"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -44,7 +44,7 @@
                 <outlet property="forecastLabel" destination="gCx-iG-n9g" id="Mjz-5h-ADq"/>
                 <outlet property="weatherView" destination="oeU-Ro-mI4" id="euG-I1-t34"/>
             </connections>
-            <point key="canvasLocation" x="379.5" y="438.5"/>
+            <point key="canvasLocation" x="225.5" y="288.5"/>
         </tableViewCell>
     </objects>
 </document>

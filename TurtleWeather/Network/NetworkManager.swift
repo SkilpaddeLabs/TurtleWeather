@@ -58,4 +58,26 @@ class NetworkManager {
             completion(data, error)
         }
     }
+    
+    class func find(searchString:String, completion:NetworkAPICompletion) {
+        
+        Alamofire.request(OWM_APIRouter.Find(searchString))
+                 .validate()
+                 .response{ (request, response, data, error) in
+           
+                    
+//            // TODO: Check response for error
+//            if let urlResponse = response {
+//
+//                //print(urlResponse)
+//                //return
+//            }
+                    
+            if let anError = error {
+                print(anError)
+                return
+            }
+            completion(data, error)
+        }
+    }
 }

@@ -12,7 +12,11 @@ class ForecastVC: UITableViewController {
     
     var dataCache:WeatherDataCache?
     var todayDate:NSDate?
-    var todayCity:String = "London"
+    var todayCity:String = "New York,us" {
+        didSet {
+            
+        }
+    }
     
     // TODO: nope
     var forecastData:Array<[ForecastData]>?
@@ -59,7 +63,6 @@ class ForecastVC: UITableViewController {
         self.tableView.registerNib( UINib(nibName: "ForecastCell", bundle: nil),
                            forCellReuseIdentifier: "ForecastCell")
         
-        self.todayCity = "London"
         self.dataCache = WeatherDataCache()
         self.dataCache?.getForecast(todayCity) { (data, error) in
             
@@ -194,7 +197,7 @@ class ForecastVC: UITableViewController {
         if withTime {
             dateFormatter.timeStyle = .ShortStyle
         }
-        dateFormatter.timeZone = NSTimeZone(name: "Europe/London")
+        dateFormatter.timeZone = NSTimeZone(name: "America/New_York")
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US")
         return dateFormatter
     }
@@ -203,7 +206,7 @@ class ForecastVC: UITableViewController {
         
         let dateFormatter = NSDateFormatter()
         // TODO: set timezone variable
-        dateFormatter.timeZone = NSTimeZone(name: "Europe/London")
+        dateFormatter.timeZone = NSTimeZone(name: "America/New_York")
         dateFormatter.timeStyle = .ShortStyle
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US")
         return dateFormatter

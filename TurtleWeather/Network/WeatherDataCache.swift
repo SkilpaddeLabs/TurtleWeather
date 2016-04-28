@@ -78,7 +78,7 @@ class WeatherDataCache {
            lastDate = self.lastForecastUpdate
             where lastDate.timeIntervalSinceNow < timeoutInterval {
             
-            let calendar = calendarForWeatherDate(data.first!.date)
+            let calendar = calendarForWeatherDate()
             let dayData = self.forecastData?.filter {
                 calendar.isDate($0.date, inSameDayAsDate: searchDate)
             }
@@ -138,28 +138,25 @@ class WeatherDataCache {
         }
     }
     
-    func calendarForWeatherDate(activeDate:NSDate) ->NSCalendar {
+    func calendarForWeatherDate() ->NSCalendar {
         
-        let gmt = NSTimeZone(forSecondsFromGMT: 0)
-        let dataTimeZoneOffset = gmt.secondsFromGMTForDate(activeDate)
         let calendar = NSCalendar.currentCalendar()
-        calendar.timeZone = NSTimeZone(forSecondsFromGMT: dataTimeZoneOffset)
+        calendar.timeZone = NSTimeZone(name: "America/New_York")!
         return calendar
     }
     
     func splitDataByDays(weatherData:[ForecastData]) ->Array<[ForecastData]>{
         
         // Create calendar object with correct time zone.
-        var activeDate = weatherData.first!.date
-        //let calendar = calendarForWeatherDate(activeDate)
-        let calendar = NSCalendar.currentCalendar()
+        let calendar = calendarForWeatherDate()
         
         // Split data into arrays based on date.
         var days = Array<[ForecastData]>()
         var currentDay = [ForecastData]()
+        var activeDate = weatherData.first!.date
         
         for data in weatherData {
-            
+
             let sameDate = calendar.isDate(data.date, inSameDayAsDate: activeDate)
     
             if !sameDate {
@@ -170,6 +167,7 @@ class WeatherDataCache {
             currentDay.append(data)
         }
         days.append(currentDay)
+        
         return days
     }
     

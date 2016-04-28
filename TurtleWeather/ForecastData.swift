@@ -56,7 +56,7 @@ struct ForecastData:CustomStringConvertible {
                 }
             }
         } catch {
-            print("Error Printing London")
+            print("Error Printing")
         }
         return [ForecastData]()
     }
