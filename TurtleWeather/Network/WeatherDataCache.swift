@@ -46,45 +46,14 @@ class WeatherDataCache {
         } else {
             // Make Network Request
             NetworkManager.getWeather(cityName) { result in
+                
                 // If successful decode data.
                 switch result {
                 case .Success(let data):
                     self.decodeWeatherData(data, error: nil, completion: completion)
                 case .Failure(let error):
+                    // TODO: Check to see if there is data on disk.
                     completion(nil, error)
-                }
-            }
-        }
-    }
-    
-    // Returns all the forecast events for a given date.
-    // TODO: Don't need to return the whole array of ForecastData
-    //      Just need to return what is displayed in the UITableView.
-    func getForecast(cityName:String, forDate searchDate:NSDate, completion:DayForecastCompletion) {
-        
-        let calendar = calendarForWeatherDate()
-        // Check if we have recently cached data.
-        if let existingData = self.forecastData,
-                   lastDate = self.lastForecastUpdate
-            where lastDate.timeIntervalSinceNow < timeoutInterval {
-            
-            let dayData = self.filterDates(calendar, inData: existingData, filterDate: searchDate)
-            // Update UI
-            dispatch_async(dispatch_get_main_queue()) {
-                completion(dayData, nil)
-            }
-            return
-        } else {
-            // Make Network Request
-            self.getForecast(cityName) { (freshData, error) in
-                dispatch_async(dispatch_get_main_queue()) {
-                    
-                    if let freshData = self.forecastData {
-                        // Filter by date
-                        let dayData = self.filterDates(calendar, inData: freshData, filterDate: searchDate)
-                        // Update UI
-                        completion(dayData, error)
-                    }
                 }
             }
         }
@@ -110,11 +79,47 @@ class WeatherDataCache {
             
             NetworkManager.getForecast(cityName) { result in
                 
+                // If successful decode data.
                 switch result {
                 case .Success(let data):
                     self.decodeForecastData(data, error: nil, completion:completion)
                 case .Failure(let error):
+                    // TODO: Check to see if there is data on disk.
                     completion(nil, error)
+                }
+            }
+        }
+    }
+    
+    // Returns all the forecast events for a given date.
+    // TODO: Don't need to return the whole array of ForecastData
+    //      Just need to return what is displayed in the UITableView.
+    func getForecast(cityName:String, forDate searchDate:NSDate, completion:DayForecastCompletion) {
+        
+        let calendar = calendarForWeatherDate()
+        // Check if we have recently cached data.
+        if let existingData = self.forecastData,
+            lastDate = self.lastForecastUpdate
+            where lastDate.timeIntervalSinceNow < timeoutInterval {
+            
+            let dayData = self.filterDates(calendar, inData: existingData, filterDate: searchDate)
+            // Update UI
+            dispatch_async(dispatch_get_main_queue()) {
+                completion(dayData, nil)
+            }
+            return
+        } else {
+            // Make Network Request
+            self.getForecast(cityName) { (freshData, error) in
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    if let freshData = self.forecastData {
+                        // Filter by date
+                        let dayData = self.filterDates(calendar, inData: freshData, filterDate: searchDate)
+                        // Update UI
+                        completion(dayData, error)
+                    }
                 }
             }
         }
@@ -135,6 +140,7 @@ class WeatherDataCache {
         }
         // Set last update time.
         self.lastWeatherUpdate = NSDate()
+        // TODO: Persist to disk
         self.weatherData = decodedData.first
         // Update caller
         dispatch_async(dispatch_get_main_queue()) {
@@ -154,6 +160,7 @@ class WeatherDataCache {
         }
         // Set last update time.
         self.lastForecastUpdate = NSDate()
+        // TODO: Persist to disk
         self.forecastData = decodedData
         let splitData = self.splitDataByDays(decodedData)
         // Update caller
