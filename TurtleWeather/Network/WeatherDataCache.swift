@@ -24,8 +24,8 @@ class WeatherDataCache {
     var lastForecastUpdate:NSDate?
     var weatherData:ForecastData?
     var forecastData:[ForecastData]?
+    var dataStore = DataStore()
     // TODO: Serial/Concurrent ???
-    var dataStore:DataStore?
     let networkQueue = dispatch_queue_create("com.turtleweather.network", DISPATCH_QUEUE_SERIAL)
 
     init() {
@@ -33,7 +33,14 @@ class WeatherDataCache {
     }
     
     func getWeather(cityName:String, completion:WeatherCompletion) {
-    
+
+//        // Check to see if there is data on disk.
+//        if let data = self.dataStore.loadWeather() {
+//            dispatch_async(dispatch_get_main_queue()) {
+//                completion(data, nil)
+//            }
+//        }
+        
         // Check if we have recently cached data.
         if let data = self.weatherData,
            lastDate = self.lastWeatherUpdate
@@ -48,13 +55,20 @@ class WeatherDataCache {
             // Make Network Request
             NetworkManager.getWeather(cityName) { result in
                 
-                // If successful decode data.
                 switch result {
+                // If successful decode data.
                 case .Success(let data):
                     self.decodeWeatherData(data, error: nil, completion: completion)
                 case .Failure(let error):
-                    // TODO: Check to see if there is data on disk.
-                    completion(nil, error)
+                    // Check to see if there is data on disk.
+                    if let savedData = self.dataStore.loadWeather() {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            completion(savedData, nil)
+                        }
+                    } else {
+                        // Finally, failure.
+                        completion(nil, error)
+                    }
                 }
             }
         }
@@ -62,6 +76,18 @@ class WeatherDataCache {
     
     // Returns all the forecast events.
     func getForecast(cityName:String, completion:FullForecastCompletion) {
+        
+//        // Check to see if there is data on disk.
+//        if let data = self.dataStore.loadForecast() {
+//            self.forecastData = data
+//            self.lastForecastUpdate = NSDate()
+//            let splitData = self.splitDataByDays(data)
+//            // Update caller
+//            dispatch_async(dispatch_get_main_queue()) {
+//                completion(splitData, nil)
+//            }
+//        }
+        
         
         // Check if we have recently cached data.
         if let data = self.forecastData,
@@ -80,13 +106,23 @@ class WeatherDataCache {
             
             NetworkManager.getForecast(cityName) { result in
                 
-                // If successful decode data.
+                // If network request successful decode data.
                 switch result {
                 case .Success(let data):
                     self.decodeForecastData(data, error: nil, completion:completion)
                 case .Failure(let error):
-                    // TODO: Check to see if there is data on disk.
-                    completion(nil, error)
+                    // Check to see if there is data on disk.
+                    if let savedData = self.dataStore.loadForecast() {
+                        self.forecastData = savedData
+                        let splitData = self.splitDataByDays(savedData)
+                        // Update caller
+                        dispatch_async(dispatch_get_main_queue()) {
+                            completion(splitData, nil)
+                        }
+                    } else {
+                        // Finally, failure.
+                        completion(nil, error)
+                    }
                 }
             }
         }
@@ -141,8 +177,11 @@ class WeatherDataCache {
         }
         // Set last update time.
         self.lastWeatherUpdate = NSDate()
-        // TODO: Persist to disk
         self.weatherData = decodedData.first
+        // Persist to disk
+        if let someWeatherData = self.weatherData {
+            self.dataStore.saveWeather(someWeatherData)
+        }
         // Update caller
         dispatch_async(dispatch_get_main_queue()) {
             completion(self.weatherData, error)
@@ -161,8 +200,11 @@ class WeatherDataCache {
         }
         // Set last update time.
         self.lastForecastUpdate = NSDate()
-        // TODO: Persist to disk
         self.forecastData = decodedData
+        // Persist to disk
+        if let someForecastData = self.forecastData {
+            self.dataStore.saveForecast(someForecastData)
+        }
         let splitData = self.splitDataByDays(decodedData)
         // Update caller
         dispatch_async(dispatch_get_main_queue()) {

@@ -61,6 +61,33 @@ struct ForecastData:CustomStringConvertible {
         return [ForecastData]()
     }
     
+    init(        date:NSDate,
+                 rain:Float,
+           tempKelvin:Float,
+             humidity:Float,
+             pressure:Float,
+        windDirection:Float,
+            windSpeed:Float,
+              weather:String,
+   weatherDescription:String,
+                 name:String,
+              sunrise:NSDate?,
+               sunset:NSDate?) {
+        
+        self.date = date
+        self.humidity = humidity
+        self.name = name
+        self.pressure = pressure
+        self.rain = rain
+        self.sunrise = sunrise
+        self.sunset = sunset
+        self.tempKelvin = tempKelvin
+        self.weather = weather
+        self.weatherDescription = weatherDescription
+        self.windDirection = windDirection
+        self.windSpeed = windSpeed
+    }
+    
     init(cityName:String?, jsonDict: [String:AnyObject]) {
         
         // Forecast City Name

@@ -13,17 +13,18 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    let dataStore:DataStore = DataStore()
     let dataCache:WeatherDataCache = WeatherDataCache()
-
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
         // Override point for customization after application launch.
-        if let rootVC = self.window!.rootViewController as? ForecastVC {
-            
-            // Pass disk persistance manager to the cache manager.
-            dataCache.dataStore = dataStore
+        
+        
+        if let navigation = self.window!.rootViewController as? UINavigationController,
+           let rootVC = navigation.viewControllers.first as? ForecastVC{
             // Pass cache manager to first view controller.
             rootVC.dataCache = self.dataCache
+            // Pass disk persistance manager to the cache manager.
         }
         // TODO: Start fetching new data?
         return true
@@ -50,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
-        self.dataStore.saveContext()
+        self.dataCache.dataStore.saveContext("APP TERMINATION SAVE")
     }
 
 
