@@ -33,13 +33,6 @@ class WeatherDataCache {
     }
     
     func getWeather(cityName:String, completion:WeatherCompletion) {
-
-//        // Check to see if there is data on disk.
-//        if let data = self.dataStore.loadWeather() {
-//            dispatch_async(dispatch_get_main_queue()) {
-//                completion(data, nil)
-//            }
-//        }
         
         // Check if we have recently cached data.
         if let data = self.weatherData,
@@ -76,18 +69,6 @@ class WeatherDataCache {
     
     // Returns all the forecast events.
     func getForecast(cityName:String, completion:FullForecastCompletion) {
-        
-//        // Check to see if there is data on disk.
-//        if let data = self.dataStore.loadForecast() {
-//            self.forecastData = data
-//            self.lastForecastUpdate = NSDate()
-//            let splitData = self.splitDataByDays(data)
-//            // Update caller
-//            dispatch_async(dispatch_get_main_queue()) {
-//                completion(splitData, nil)
-//            }
-//        }
-        
         
         // Check if we have recently cached data.
         if let data = self.forecastData,
