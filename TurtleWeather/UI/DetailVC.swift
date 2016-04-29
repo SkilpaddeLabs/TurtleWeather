@@ -42,7 +42,6 @@ class DetailVC: UITableViewController {
     func hourFormatter() ->NSDateFormatter {
         
         let dateFormatter = NSDateFormatter()
-        // TODO: set timezone variable
         dateFormatter.timeZone = NSTimeZone(name: "America/New_York")
         dateFormatter.timeStyle = .ShortStyle
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US")

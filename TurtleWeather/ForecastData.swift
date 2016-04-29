@@ -107,9 +107,7 @@ struct ForecastData:CustomStringConvertible {
         }
         
         // Date
-        // TODO: Weather no
         if let dateInt = jsonDict[OWMKey.Timestamp] as? Double {
-            // TODO: handle nil
             date = NSDate.init(timeIntervalSince1970: dateInt)
         } else {
             date = NSDate()
@@ -161,7 +159,6 @@ struct ForecastData:CustomStringConvertible {
         if let sys = jsonDict[OWMKey.Sys] as? [String:AnyObject],
            let sunrise = sys[OWMKey.SysSunrise] as? Double,
            let sunset = sys[OWMKey.SysSunset] as? Double {
-            // TODO: Format time - Ints?Dates?
             self.sunrise = NSDate(timeIntervalSince1970:sunrise)
             self.sunset = NSDate(timeIntervalSince1970:sunset)
         } else {

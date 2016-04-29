@@ -14,9 +14,7 @@ class ForecastVC: UITableViewController {
     var todayDate:NSDate?
     var todayCity:String = "New York,us" 
     
-    // TODO: nope
-    var forecastData:Array<[ForecastData]>?
-    var weatherData:ForecastData?
+    var forecastTableData:[(NSDate, String, Float, Float)]?
     var showingAlert:Bool = false
     
     // MARK: - Segues
@@ -61,29 +59,48 @@ class ForecastVC: UITableViewController {
                            forCellReuseIdentifier: "ForecastCell")
         
         self.dataCache = WeatherDataCache()
-        self.dataCache?.getForecast(todayCity) { (data, error) in
-            
-            if let anError = error {
-                self.errorAlert(anError)
-            }
-            
-            if let todayData = data?.first {
-                self.forecastData = data!
-                self.todayDate = todayData.first?.date
-                self.tableView.reloadData()
-            }
-        }
         
         self.dataCache?.getWeather(todayCity) { (data, error) in
             
             if let anError = error {
                 self.errorAlert(anError)
             }
-            
-            self.weatherData = data
             self.todayDate = NSDate()
             self.todayCity = data?.name ?? ""
             self.tableView.reloadData()
+        }
+        
+        self.dataCache?.getForecast(todayCity) { (data, error) in
+            
+            if let anError = error {
+                self.errorAlert(anError)
+            }
+            if let todayData = data?.first {
+                // Save data needed for table display.
+                self.forecastTableData = data!.map { dayData in
+                   return self.processTableData(dayData)
+                }
+                self.todayDate = todayData.first?.date
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    // Takes the full ForcastData array and returns an array of
+    // just the data that is displayed in the table.
+    func processTableData(dayData:[ForecastData]) ->(NSDate, String, Float, Float) {
+        
+        if let firstDayData = dayData.first {
+            
+            let date = firstDayData.date
+            let weather = firstDayData.weather
+            let temps = dayData.map{ $0.tempKelvin }
+            let hi = temps.maxElement() ?? 1.0
+            let lo = temps.minElement() ?? 0.0
+            return (date, weather, hi, lo)
+        }
+        else {
+            return (NSDate.distantPast(), "", Float(1.0), Float(0.0))
         }
     }
     
@@ -119,7 +136,7 @@ class ForecastVC: UITableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if let someData = forecastData {
+        if let someData = self.dataCache?.forecastData {
             return someData.count
         } else {
             return 1
@@ -142,7 +159,6 @@ class ForecastVC: UITableViewController {
             
             let wCell = tableView.dequeueReusableCellWithIdentifier( "WeatherCell",
                                             forIndexPath: indexPath) as! WeatherCell
-            
             updateWeatherCell(wCell)
             cell = wCell
             
@@ -150,7 +166,7 @@ class ForecastVC: UITableViewController {
         
             let fCell = tableView.dequeueReusableCellWithIdentifier( "ForecastCell",
                                                   forIndexPath: indexPath) as! ForecastCell
-            
+            fCell.forecastLabel.adjustsFontSizeToFitWidth = true
             updateForecastCell(fCell, atIndex: indexPath.row)
             cell = fCell
         }
@@ -168,8 +184,7 @@ class ForecastVC: UITableViewController {
     // MARK: - Utility
     func updateWeatherCell(cell:WeatherCell) {
         
-        // TODO: Weather API not forecast
-        if let currentData = weatherData {
+        if let currentData = self.dataCache?.weatherData {
             cell.nameLabel.text = "\(currentData.name)"
             cell.dateLabel.text = dateFormatter().stringFromDate(currentData.date)
             cell.temperatureLabel.text = Temperature.Fahrenheit.convertKelvin(currentData.tempKelvin)
@@ -204,27 +219,16 @@ class ForecastVC: UITableViewController {
     
     func updateForecastCell(cell:ForecastCell, atIndex index:Int) {
         
-        if let dayData = forecastData?[index] {
+        if let (date, weather, highTemp, lowTemp) = forecastTableData?[index] {
             
-            let formattedDate = dateFormatter(withTime: false).stringFromDate(dayData.first!.date)
+            let formattedDate = dateFormatter(withTime: false).stringFromDate(date)
             let dateString = index > 1 ? formattedDate : "Tomorrow"
-            cell.forecastLabel.text = self.weatherString(dateString, weatherData:dayData)
-            cell.forecastLabel.adjustsFontSizeToFitWidth = true
+            let formatHigh = Temperature.Fahrenheit.convertKelvin(highTemp)
+            let formatLow = Temperature.Fahrenheit.convertKelvin(lowTemp)
+            let formatText = "\(dateString)   \(weather)   Lo: \(formatLow)   Hi: \(formatHigh)"
+            
+            cell.forecastLabel.text = formatText
         }
-    }
-    
-    func weatherString(day:String, weatherData:[ForecastData]) ->String {
-        
-        let weatherString = weatherData.first?.weather ?? ""
-        
-        let temps = weatherData.map{ $0.tempKelvin }
-        let highTemp = temps.maxElement() ?? 0.0
-        let lowTemp = temps.minElement()  ?? 0.0
-        
-        let formatHigh = Temperature.Fahrenheit.convertKelvin(highTemp)
-        let formatLow = Temperature.Fahrenheit.convertKelvin(lowTemp)
-        
-        return "\(day)   \(weatherString)   Lo: \(formatLow)   Hi: \(formatHigh)"
     }
     
     func dateFormatter(withTime withTime:Bool = true) ->NSDateFormatter {
@@ -242,7 +246,6 @@ class ForecastVC: UITableViewController {
     func hourFormatter() ->NSDateFormatter {
         
         let dateFormatter = NSDateFormatter()
-        // TODO: set timezone variable
         dateFormatter.timeZone = NSTimeZone(name: "America/New_York")
         dateFormatter.timeStyle = .ShortStyle
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US")

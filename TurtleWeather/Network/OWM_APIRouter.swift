@@ -45,7 +45,8 @@ enum OWM_APIRouter:URLRequestConvertible {
     
     // Example URL Format "http://api.openweathermap.org/data/2.5/forecast?q=London&APPID=XXXXXXXX"
     static let baseUrlString = "http://api.openweathermap.org"
-    static let APPID = "get your own id"
+    static let APPID = "258a1dfbd50934f9b2a11ca6d9681db0"//"get your own id" 
+    //  https://home.openweathermap.org/users/sign_up
     
     case Weather(String) // http://api.openweathermap.org/data/2.5/weather?q=London
     case Forecast(String) // http://api.openweathermap.org/data/2.5/forecast?q=London,us
