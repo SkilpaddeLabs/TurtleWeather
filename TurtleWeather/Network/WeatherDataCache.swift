@@ -24,7 +24,7 @@ class WeatherDataCache {
     var lastForecastUpdate:NSDate?
     var weatherData:ForecastData?
     var forecastData:[ForecastData]?
-    var dataStore:DataStore?
+    var dataStore:DataStore? = DataStore()
     // TODO: Serial/Concurrent ???
     let networkQueue = dispatch_queue_create("com.turtleweather.network", DISPATCH_QUEUE_SERIAL)
 
@@ -55,6 +55,7 @@ class WeatherDataCache {
                 case .Failure(let error):
                     // Check to see if there is data on disk.
                     if let savedData = self.dataStore?.loadWeather() {
+                        self.weatherData = savedData
                         dispatch_async(dispatch_get_main_queue()) {
                             completion(savedData, error)
                         }

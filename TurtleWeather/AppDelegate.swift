@@ -13,7 +13,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    let dataStore:DataStore = DataStore()
+    //let dataStore:DataStore = DataStore()
     let dataCache:WeatherDataCache = WeatherDataCache()
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -22,8 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if let navigation = self.window!.rootViewController as? UINavigationController,
            let rootVC = navigation.viewControllers.first as? ForecastVC{
-            // Pass disk persistance manager to the cache manager.
-            dataCache.dataStore = dataStore
+
             // Pass cache manager to first view controller.
             rootVC.dataCache = dataCache
         }
@@ -52,12 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
-        self.dataStore.saveContext("APP TERMINATION SAVE")
+        self.dataCache.dataStore?.saveContext("APP TERMINATION SAVE")
     }
-
-
-
-
-
 }
 
