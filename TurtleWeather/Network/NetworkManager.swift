@@ -115,7 +115,7 @@ class NetworkManager {
         if (urlResponse.statusCode == 401) {
             
             let infoDict = [NSLocalizedDescriptionKey: "API KEY Error",
-                   NSLocalizedRecoveryOptionsErrorKey: "Valid API Key is missing."]
+                   NSLocalizedRecoveryOptionsErrorKey: "Valid API Key is missing. Register for a free key at https://home.openweathermap.org/users/sign_up"]
             
             error = NSError(domain: NSURLErrorDomain,
                             code: NSURLErrorUserAuthenticationRequired,
