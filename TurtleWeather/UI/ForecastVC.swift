@@ -75,6 +75,7 @@ class ForecastVC: UITableViewController {
             if let anError = error {
                 self.errorAlert(anError)
             }
+            
             if let todayData = data?.first {
                 // Save data needed for table display.
                 self.forecastTableData = data!.map { dayData in
@@ -136,7 +137,7 @@ class ForecastVC: UITableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if let someData = self.dataCache?.forecastData {
+        if let someData = self.forecastTableData {
             return someData.count
         } else {
             return 1
