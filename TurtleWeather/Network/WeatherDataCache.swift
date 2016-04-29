@@ -24,7 +24,7 @@ class WeatherDataCache {
     var lastForecastUpdate:NSDate?
     var weatherData:ForecastData?
     var forecastData:[ForecastData]?
-    var dataStore = DataStore()
+    var dataStore:DataStore?
     // TODO: Serial/Concurrent ???
     let networkQueue = dispatch_queue_create("com.turtleweather.network", DISPATCH_QUEUE_SERIAL)
 
@@ -54,7 +54,7 @@ class WeatherDataCache {
                     self.decodeWeatherData(data, error: nil, completion: completion)
                 case .Failure(let error):
                     // Check to see if there is data on disk.
-                    if let savedData = self.dataStore.loadWeather() {
+                    if let savedData = self.dataStore?.loadWeather() {
                         dispatch_async(dispatch_get_main_queue()) {
                             completion(savedData, error)
                         }
@@ -93,7 +93,7 @@ class WeatherDataCache {
                     self.decodeForecastData(data, error: nil, completion:completion)
                 case .Failure(let error):
                     // Check to see if there is data on disk.
-                    if let savedData = self.dataStore.loadForecast()
+                    if let savedData = self.dataStore?.loadForecast()
                      where !savedData.isEmpty {
                         self.forecastData = savedData
                         let splitData = self.splitDataByDays(savedData)
@@ -162,7 +162,7 @@ class WeatherDataCache {
         self.weatherData = decodedData.first
         // Persist to disk
         if let someWeatherData = self.weatherData {
-            self.dataStore.saveWeather(someWeatherData)
+            self.dataStore?.saveWeather(someWeatherData)
         }
         // Update caller
         dispatch_async(dispatch_get_main_queue()) {
@@ -186,7 +186,7 @@ class WeatherDataCache {
         self.forecastData = decodedData
         // Persist to disk
         if let someForecastData = self.forecastData {
-            self.dataStore.saveForecast(someForecastData)
+            self.dataStore?.saveForecast(someForecastData)
         }
         let splitData = self.splitDataByDays(decodedData)
         // Update caller
