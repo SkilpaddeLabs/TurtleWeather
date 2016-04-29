@@ -63,7 +63,7 @@ class WeatherDataCache {
                     // Check to see if there is data on disk.
                     if let savedData = self.dataStore.loadWeather() {
                         dispatch_async(dispatch_get_main_queue()) {
-                            completion(savedData, nil)
+                            completion(savedData, error)
                         }
                     } else {
                         // Finally, failure.
@@ -92,7 +92,7 @@ class WeatherDataCache {
         // Check if we have recently cached data.
         if let data = self.forecastData,
            lastDate = self.lastForecastUpdate
-           where lastDate.timeIntervalSinceNow < timeoutInterval {
+           where (!data.isEmpty) && (lastDate.timeIntervalSinceNow < timeoutInterval) {
            
             let splitData = self.splitDataByDays(data)
             // Update caller
@@ -112,12 +112,13 @@ class WeatherDataCache {
                     self.decodeForecastData(data, error: nil, completion:completion)
                 case .Failure(let error):
                     // Check to see if there is data on disk.
-                    if let savedData = self.dataStore.loadForecast() {
+                    if let savedData = self.dataStore.loadForecast()
+                     where !savedData.isEmpty {
                         self.forecastData = savedData
                         let splitData = self.splitDataByDays(savedData)
                         // Update caller
                         dispatch_async(dispatch_get_main_queue()) {
-                            completion(splitData, nil)
+                            completion(splitData, error)
                         }
                     } else {
                         // Finally, failure.
@@ -194,7 +195,8 @@ class WeatherDataCache {
             print("Error getting forecast data from network")
             return
         }
-        guard let decodedData = ForecastData.dataFromJSON("NAME", jsonData: cityData) else {
+        guard let decodedData = ForecastData.dataFromJSON("NAME", jsonData: cityData)
+            where !decodedData.isEmpty else {
             print("Error decoding json data")
             return
         }
@@ -235,7 +237,7 @@ class WeatherDataCache {
         // Split data into arrays based on date.
         var days = Array<[ForecastData]>()
         var currentDay = [ForecastData]()
-        var activeDate = weatherData.first!.date
+        var activeDate = weatherData.first?.date ?? NSDate.distantPast()
         
         for data in weatherData {
 

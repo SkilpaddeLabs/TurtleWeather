@@ -26,7 +26,6 @@ class NetworkManager {
             // Check Response
             if let urlResponse = response,
                let responseError = NetworkManager.checkURLResponse(urlResponse) {
-                print(urlResponse)
                 completion(.Failure(responseError))
                 return
             }
@@ -56,7 +55,6 @@ class NetworkManager {
             // Check Response
             if let urlResponse = response,
                 let responseError = NetworkManager.checkURLResponse(urlResponse) {
-                print(urlResponse)
                 completion(.Failure(responseError))
                 return
             }
@@ -76,8 +74,6 @@ class NetworkManager {
         }
     }
     
-
-    
     class func find(searchString:String, completion:WeatherAPICompletion) {
         
         Alamofire.request(OWM_APIRouter.Find(searchString))
@@ -87,7 +83,6 @@ class NetworkManager {
             // Check Response
             if let urlResponse = response,
                 let responseError = NetworkManager.checkURLResponse(urlResponse) {
-                print(urlResponse)
                 completion(.Failure(responseError))
                 return
             }

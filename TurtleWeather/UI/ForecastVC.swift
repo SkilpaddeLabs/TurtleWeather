@@ -17,6 +17,7 @@ class ForecastVC: UITableViewController {
     // TODO: nope
     var forecastData:Array<[ForecastData]>?
     var weatherData:ForecastData?
+    var showingAlert:Bool = false
     
     // MARK: - Segues
     @IBAction func showDetail(sender: UIButton) {
@@ -62,6 +63,10 @@ class ForecastVC: UITableViewController {
         self.dataCache = WeatherDataCache()
         self.dataCache?.getForecast(todayCity) { (data, error) in
             
+            if let anError = error {
+                self.errorAlert(anError)
+            }
+            
             if let todayData = data?.first {
                 self.forecastData = data!
                 self.todayDate = todayData.first?.date
@@ -71,11 +76,40 @@ class ForecastVC: UITableViewController {
         
         self.dataCache?.getWeather(todayCity) { (data, error) in
             
+            if let anError = error {
+                self.errorAlert(anError)
+            }
+            
             self.weatherData = data
             self.todayDate = NSDate()
             self.todayCity = data?.name ?? ""
             self.tableView.reloadData()
         }
+    }
+    
+    func errorAlert(anError:NSError) {
+        
+        print("Error: \(anError.code) \(anError.domain) \(anError.localizedDescription)")
+        guard showingAlert == false else { return }
+        
+        var title:String = "Unknown Error"
+        if let description = anError.userInfo[NSLocalizedDescriptionKey] as? String {
+            title = description
+        }
+        var message:String = ""
+        if let recoveryOptions = anError.userInfo[NSLocalizedRecoveryOptionsErrorKey] as? String {
+            message = recoveryOptions
+        }
+        
+        let alert = UIAlertController(title: title,
+                                    message: message,
+                             preferredStyle: .Alert)
+        let okButton = UIAlertAction(title: "OK",
+                                     style: .Cancel,
+                                   handler: nil)
+        alert.addAction(okButton)
+        self.presentViewController(alert, animated: true) { self.showingAlert = false }
+        showingAlert = true
     }
     
     // MARK: - UITableViewDelegate

@@ -11,7 +11,7 @@ import Foundation
 // Structure for holding weather data.
 // There are some minor differences between the data returned 
 // by the Weather and Forecast APIs
-// Weather uses a single one.
+// Weather uses a single struct.
 // Forecast uses an array of structs.
 struct ForecastData:CustomStringConvertible {
     
