@@ -8,6 +8,7 @@
 
 import UIKit
 
+// Displays all the forcast data for a single day. 
 class DetailVC: UITableViewController {
 
     weak var dataCache:WeatherDataCache?

@@ -15,6 +15,8 @@ struct ForecastTableData {
     let hiTemp:Float
 }
 
+// Main view, displays today's current weather,
+// as well as condensed forecast data for upcoming days.
 class ForecastVC: UITableViewController {
     
     var dataCache:WeatherDataCache?

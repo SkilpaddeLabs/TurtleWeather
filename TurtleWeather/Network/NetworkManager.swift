@@ -11,11 +11,11 @@ import Alamofire
 
 typealias WeatherAPICompletion = Result<NSData, NSError> ->Void
 
+// Contains functions for making network requests.
 class NetworkManager {
 
-    init() {
-    }
-    
+    init() {}
+    // MARK: - Network Requests
     class func getWeather(city:String, completion:WeatherAPICompletion) {
         
         
@@ -101,7 +101,7 @@ class NetworkManager {
             completion(.Success(someData))
         }
     }
-    
+    // MARK: - Utility
     class func missingDataError() ->NSError {
         
         let infoDict = [NSLocalizedDescriptionKey: "Data not found.",
