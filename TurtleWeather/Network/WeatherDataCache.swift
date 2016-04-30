@@ -28,10 +28,6 @@ class WeatherDataCache {
     
     // TODO: Serial/Concurrent ???
     let networkQueue = dispatch_queue_create("com.turtleweather.network", DISPATCH_QUEUE_SERIAL)
-
-    init() {
-        
-    }
     
     // Returns today's weather data from the network if possible.
     // otherwise it returns saved data from disk.
@@ -43,10 +39,9 @@ class WeatherDataCache {
             where lastDate.timeIntervalSinceNow < timeoutInterval {
             
             // Update caller
-            dispatch_async(dispatch_get_main_queue()) {
-                completion(data, nil)
-            }
+            completion(data, nil)
             return
+            
         } else {
             // Make Network Request
             NetworkManager.getWeather(cityName) { result in
@@ -81,9 +76,7 @@ class WeatherDataCache {
            
             let splitData = self.splitDataByDays(data)
             // Update caller
-            dispatch_async(dispatch_get_main_queue()) {
-                completion(splitData, nil)
-            }
+            completion(splitData, nil)
             return
         }
         // Make network request.
@@ -127,10 +120,9 @@ class WeatherDataCache {
             
             let dayData = self.filterDates(calendar, inData: existingData, filterDate: searchDate)
             // Update UI
-            dispatch_async(dispatch_get_main_queue()) {
-                completion(dayData, nil)
-            }
+            completion(dayData, nil)
             return
+            
         } else {
             // Make Network Request
             self.getForecast(cityName) { (freshData, error) in
