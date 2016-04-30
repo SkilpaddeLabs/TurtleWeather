@@ -58,8 +58,6 @@ class ForecastVC: UITableViewController {
         self.tableView.registerNib( UINib(nibName: "ForecastCell", bundle: nil),
                            forCellReuseIdentifier: "ForecastCell")
         
-        self.dataCache = WeatherDataCache()
-        
         self.dataCache?.getWeather(todayCity) { (data, error) in
             
             if let anError = error {

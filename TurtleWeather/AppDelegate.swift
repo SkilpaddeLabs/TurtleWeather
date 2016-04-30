@@ -13,7 +13,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    //let dataStore:DataStore = DataStore()
+    let dataStore:DataStore = DataStore()
     let dataCache:WeatherDataCache = WeatherDataCache()
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -23,8 +23,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let navigation = self.window!.rootViewController as? UINavigationController,
            let rootVC = navigation.viewControllers.first as? ForecastVC{
 
+            // Pass persistance manager to the data cache.
+            self.dataCache.dataStore = self.dataStore
             // Pass cache manager to first view controller.
             rootVC.dataCache = dataCache
+            
         }
         // TODO: Start fetching new data?
         return true
