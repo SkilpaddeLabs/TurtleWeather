@@ -8,13 +8,20 @@
 
 import UIKit
 
+struct ForecastTableData {
+    let date:NSDate
+    let weather:String
+    let loTemp:Float
+    let hiTemp:Float
+}
+
 class ForecastVC: UITableViewController {
     
     var dataCache:WeatherDataCache?
     var todayDate:NSDate?
     var todayCity:String = "New York,us" 
     
-    var forecastTableData:[(NSDate, String, Float, Float)]?
+    var forecastTableData:[ForecastTableData]?
     var showingAlert:Bool = false
     
     // MARK: - Segues
@@ -103,7 +110,7 @@ class ForecastVC: UITableViewController {
     
     // Takes the full ForcastData array and returns an array of
     // just the data that is displayed in the table.
-    func processTableData(dayData:[ForecastData]) ->(NSDate, String, Float, Float) {
+    func processTableData(dayData:[ForecastData]) ->ForecastTableData {
         
         if let firstDayData = dayData.first {
             
@@ -112,10 +119,10 @@ class ForecastVC: UITableViewController {
             let temps = dayData.map{ $0.tempKelvin }
             let hi = temps.maxElement() ?? 1.0
             let lo = temps.minElement() ?? 0.0
-            return (date, weather, hi, lo)
+            return ForecastTableData(date: date, weather: weather, loTemp: lo, hiTemp: hi)
         }
         else {
-            return (NSDate.distantPast(), "", Float(1.0), Float(0.0))
+            return ForecastTableData(date: NSDate.distantPast(), weather: "", loTemp: 0.0, hiTemp: 1.0)
         }
     }
     
@@ -160,6 +167,7 @@ class ForecastVC: UITableViewController {
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
+        // TODO: - More flexible heights.
         if indexPath.row == 0 {
             return 400.0
         } else {
@@ -234,13 +242,13 @@ class ForecastVC: UITableViewController {
     
     func updateForecastCell(cell:ForecastCell, atIndex index:Int) {
         
-        if let (date, weather, highTemp, lowTemp) = forecastTableData?[index] {
+        if let cellData = forecastTableData?[index] {
             
-            let formattedDate = dateFormatter(withTime: false).stringFromDate(date)
+            let formattedDate = dateFormatter(withTime: false).stringFromDate(cellData.date)
             let dateString = index > 1 ? formattedDate : "Tomorrow"
-            let formatHigh = Temperature.Fahrenheit.convertKelvin(highTemp)
-            let formatLow = Temperature.Fahrenheit.convertKelvin(lowTemp)
-            let formatText = "\(dateString)   \(weather)   Lo: \(formatLow)   Hi: \(formatHigh)"
+            let formatHigh = Temperature.Fahrenheit.convertKelvin(cellData.hiTemp)
+            let formatLow = Temperature.Fahrenheit.convertKelvin(cellData.loTemp)
+            let formatText = "\(dateString)   \(cellData.weather)   Lo: \(formatLow)   Hi: \(formatHigh)"
             
             cell.forecastLabel.text = formatText
         }

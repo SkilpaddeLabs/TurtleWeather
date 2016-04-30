@@ -19,7 +19,7 @@ typealias WeatherCompletion = (ForecastData?, NSError?)->(Void)
 //  make network requests themselves.
 class WeatherDataCache {
     
-    let timeoutInterval = 15.0 * 60.0
+    let timeoutInterval = 15.0 //* 60.0
     var lastWeatherUpdate:NSDate?
     var lastForecastUpdate:NSDate?
     var weatherData:ForecastData?
@@ -33,6 +33,8 @@ class WeatherDataCache {
         
     }
     
+    // Returns today's weather data from the network if possible.
+    // otherwise it returns saved data from disk.
     func getWeather(cityName:String, completion:WeatherCompletion) {
         
         // Check if we have recently cached data.
