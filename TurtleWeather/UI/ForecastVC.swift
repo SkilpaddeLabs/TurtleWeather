@@ -52,11 +52,27 @@ class ForecastVC: UITableViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
+        // Register custom table view cells nibs.
         self.tableView.registerNib( UINib(nibName: "WeatherCell", bundle: nil),
                            forCellReuseIdentifier: "WeatherCell")
         self.tableView.registerNib( UINib(nibName: "ForecastCell", bundle: nil),
                            forCellReuseIdentifier: "ForecastCell")
+        
+        // Add refresh button. 
+        let rightButton = UIBarButtonItem(barButtonSystemItem: .Refresh,
+                                                       target: self,
+                                                       action: #selector(ForecastVC.refreshButtonPressed(_:)))
+        self.navigationItem.rightBarButtonItem = rightButton
+        
+        // Get Data
+        refreshData()
+    }
+    
+    func refreshButtonPressed(sender:UIBarButtonItem) {
+        refreshData()
+    }
+    
+    func refreshData() {
         
         self.dataCache?.getWeather(todayCity) { (data, error) in
             
@@ -77,7 +93,7 @@ class ForecastVC: UITableViewController {
             if let todayData = data?.first {
                 // Save data needed for table display.
                 self.forecastTableData = data!.map { dayData in
-                   return self.processTableData(dayData)
+                    return self.processTableData(dayData)
                 }
                 self.todayDate = todayData.first?.date
                 self.tableView.reloadData()
