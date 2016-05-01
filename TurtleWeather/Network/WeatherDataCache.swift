@@ -49,7 +49,13 @@ class WeatherDataCache {
                 switch result {
                 // If successful decode data.
                 case .Success(let data):
-                    self.decodeWeatherData(data, error: nil, completion: completion)
+                    
+                    let (decodedData, error) = self.decodeWeatherData(data)
+                    // Update caller
+                    dispatch_async(dispatch_get_main_queue()) {
+                        completion(decodedData, error)
+                    }
+                    
                 case .Failure(let error):
                     // Check to see if there is data on disk.
                     if let savedData = self.dataStore?.loadWeather() {
@@ -87,7 +93,12 @@ class WeatherDataCache {
                 // If network request successful decode data.
                 switch result {
                 case .Success(let data):
-                    self.decodeForecastData(data, error: nil, completion:completion)
+                    
+                    let (splitData, error) = self.decodeForecastData(data)
+                    // Update caller
+                    dispatch_async(dispatch_get_main_queue()) {
+                        completion(splitData, error)
+                    }
                 case .Failure(let error):
                     // Check to see if there is data on disk.
                     if let savedData = self.dataStore?.loadForecast()
@@ -141,17 +152,17 @@ class WeatherDataCache {
     }
     
     // MARK: - Decoding network results.
-    func decodeWeatherData(data:NSData?, error:NSError?, completion:WeatherCompletion) {
+    func decodeWeatherData(data:NSData?) ->(ForecastData?, NSError?) {
         
         guard let weatherData = data else {
-            print("Error getting weather data from network")
-            return
+            let error = missingDataError("Error: no weather data returned from network")
+            return (nil, error)
         }
         guard let decodedData = ForecastData.dataFromJSON( "NAME",
                                                  jsonData: weatherData,
                                                 isWeather: true) else {
-            print("Error decoding json data")
-            return
+            let error = missingDataError("Error decoding weather data.")
+            return (nil, error)
         }
         // Set last update time.
         self.lastWeatherUpdate = NSDate()
@@ -160,22 +171,20 @@ class WeatherDataCache {
         if let someWeatherData = self.weatherData {
             self.dataStore?.saveWeather(someWeatherData)
         }
-        // Update caller
-        dispatch_async(dispatch_get_main_queue()) {
-            completion(self.weatherData, error)
-        }
+        return (self.weatherData, nil)
     }
     
-    func decodeForecastData(data:NSData?, error:NSError?, completion:FullForecastCompletion) {
+    func decodeForecastData(data:NSData?) ->(Array<[ForecastData]>?, NSError?){
         
         guard let cityData = data else {
-            print("Error getting forecast data from network")
-            return
+            let error = missingDataError("Error: no forecast data returned from network")
+            return (nil, error)
         }
         guard let decodedData = ForecastData.dataFromJSON("NAME", jsonData: cityData)
             where !decodedData.isEmpty else {
-            print("Error decoding json data")
-            return
+                
+            let error = missingDataError("Error decoding forecast data.")
+            return (nil, error)
         }
         // Set last update time.
         self.lastForecastUpdate = NSDate()
@@ -185,10 +194,14 @@ class WeatherDataCache {
             self.dataStore?.saveForecast(someForecastData)
         }
         let splitData = self.splitDataByDays(decodedData)
-        // Update caller
-        dispatch_async(dispatch_get_main_queue()) {
-            completion(splitData, error)
-        }
+        return (splitData, nil)
+    }
+    
+    func missingDataError(recoveryString:String) ->NSError {
+        
+        let infoDict = [NSLocalizedDescriptionKey: "Data not found.",
+               NSLocalizedRecoveryOptionsErrorKey: recoveryString]
+        return NSError(domain: "com.turtleweather", code: -50, userInfo: infoDict)
     }
     
     // MARK: - Utility
